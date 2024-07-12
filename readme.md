@@ -511,12 +511,26 @@ Concurrency is the ability of a program to handle multiple tasks at the same tim
 6) http
 7) https
 
-
 ## Error handling and throwing custom errors
 We can use try/catch block.
 
+## What are streams and what types of streams are available in Node.js?
+In Node.js, streams are a powerful way to handle data efficiently, especially when dealing with large datasets or network requests. They allow data to be processed in chunks as it arrives, rather than waiting for the entire dataset to be loaded into memory.
+1. Readable streams
+2. Writable streams
+3. Duplex streams
+4. Transform streams
+
+## What is the difference between worker threads and child processes?
+- worker threads provide an isolated event loop and V8 runtime in the same process,.
+- child processes are separate instances of the entire Node. js runtime
+
 ## Event Emitter
+EventEmitter is synchronous by default. This means that when an event is emitted, all listeners attached to that event are called immediately in the order they were registered, blocking further code execution until all listeners have finished.
+
 ## Event Loop
+
+
 ## Miscellaneous
 
 # AWS
