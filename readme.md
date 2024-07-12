@@ -271,7 +271,8 @@ console.log(personTwo(60));
     }
 
     const mygen = gen();
-    console.log(mygen.next().value);
+    console.log(mygen.next().value); OUTPUT: 10
+    console.log(mygen.next().value); OUTPUT: 20
     ```
 
 ## Hoisting in javascript
@@ -308,6 +309,19 @@ A callback is a function passed as an argument to another function.
     add(1,2,print);
 ```
 
+## Is there a way to decrease the load time of a web application?
+Here are some ways to reduce load times for web applications:
+
+- Image Optimization: The file size of an image can be dramatically reduced by switching to a different file format. For example, GIFs work well for images with few colors, such as logos, JPEG is ideal for images with lots of colors and details, such as photographs, and PNG format is ideal for transparent images with high quality.
+- Keep JavaScript and CSS in external files: Embedding JavaScript and CSS in HTML documents forces them to be downloaded every time the HTML document is loaded. In this case, browser caching is not utilized, and the HTML document becomes larger. This is why you should always place CSS and JavaScript in external files; it is a best practice and simplifies maintenance.
+- Reducing redirects: Too many redirects will delay the loading time of a website. HTTP requests and responses are delayed each time a page redirects. Getting rid of unnecessary redirects on your site will reduce the load time of your site significantly.
+- Load CSS and JavaScript files asynchronously: Your website contains CSS and JavaScript files that can be loaded either synchronously or asynchronously. As part of synchronous loading, each file is loaded sequentially, in the order it appears on your site. As opposed to synchronous loading, asynchronous loading allows multiple files to be loaded simultaneously, boosting the performance of a website. 
+- Minify HTML, CSS, and JavaScript: If you optimize the way your files load, your pages will load more quickly. You can do the same when it comes to HTML, CSS, and JavaScript code. By eliminating unnecessary spaces, characters, and comments, you can reduce the size of your files. This will make your web pages load faster.
+
+
+## Callback Hell
+Callback hell is a term used to describe the situation where multiple asynchronous operations are performed sequentially, resulting in a series of nested callback functions. This can make the code difficult to read, maintain, and debug.
+
 ## Function arguments vs Function parameters
 
 ```   
@@ -339,6 +353,9 @@ https://dev.to/devsmitra/28-javascript-array-hacks-a-cheat-sheet-for-developer-5
 A JavaScript function that returns an object is known as a factory function. Factory functions often accept parameters in order to customize the returned object.
 
 ## What is execution context?
+In JavaScript, an execution context is an environment in which JavaScript code is executed. It defines the scope of variables, functions, and the this keyword.
+Think of it as a container that holds all the necessary information for executing a piece of code.
+
 ## What is lexical scoping?
 ## What is difference between ES5 and ES6?
 
@@ -352,11 +369,17 @@ A JavaScript function that returns an object is known as a factory function. Fac
 2) Shuffle items in an array
 
 # Reactjs
+
 ##  How does React work?
+1) React works by creating a virtual DOM (Document Object Model) in memory, which is a lightweight representation of the actual DOM.
+2) When a component's state (data) changes, React creates a new virtual DOM representation of that component.
+3) React then compares this new virtual DOM with the previous one to identify the differences. This process is called "diffing." (Diffing algorithm)
+4) Once React knows what has changed, it updates only the necessary parts of the actual DOM. This process is called "reconciliation" and is much more efficient than updating the entire DOM every time something changes.
+
 ## Features of reactjs
 1. JSX syntax - By using JSX, we can write HTML structures in the same file that contains JavaScript code.
 2. Components - Components in react are building blocks which can be reused through out the application instead of re-writing code for the same component.
-3. Virtual DOM - 
+3. Virtual DOM - It is a lightweight representation of the actual DOM.
 4. High performance - React updates only those components that have changed
 
 ## What is an event in React?
@@ -434,13 +457,11 @@ The Context API in ReactJS provides a way to share data between components witho
 
 ## What is useImperativeHandle?
 ## What are performance and optimisation techniques used in React?
-
-## Virtual DOM
 ## Shadow DOM
-## Reconcilation in react
 ## Lifting up state in react
 ## state vs props
-
+- props are used to pass data between two different components
+- While state is specific to each component and changes over time 
 
 
 
@@ -490,18 +511,6 @@ Concurrency is the ability of a program to handle multiple tasks at the same tim
 6) http
 7) https
 
-## Is there a way to decrease the load time of a web application?
-Here are some ways to reduce load times for web applications:
-
-- Image Optimization: The file size of an image can be dramatically reduced by switching to a different file format. For example, GIFs work well for images with few colors, such as logos, JPEG is ideal for images with lots of colors and details, such as photographs, and PNG format is ideal for transparent images with high quality.
-- Keep JavaScript and CSS in external files: Embedding JavaScript and CSS in HTML documents forces them to be downloaded every time the HTML document is loaded. In this case, browser caching is not utilized, and the HTML document becomes larger. This is why you should always place CSS and JavaScript in external files; it is a best practice and simplifies maintenance.
-- Reducing redirects: Too many redirects will delay the loading time of a website. HTTP requests and responses are delayed each time a page redirects. Getting rid of unnecessary redirects on your site will reduce the load time of your site significantly.
-- Load CSS and JavaScript files asynchronously: Your website contains CSS and JavaScript files that can be loaded either synchronously or asynchronously. As part of synchronous loading, each file is loaded sequentially, in the order it appears on your site. As opposed to synchronous loading, asynchronous loading allows multiple files to be loaded simultaneously, boosting the performance of a website. 
-- Minify HTML, CSS, and JavaScript: If you optimize the way your files load, your pages will load more quickly. You can do the same when it comes to HTML, CSS, and JavaScript code. By eliminating unnecessary spaces, characters, and comments, you can reduce the size of your files. This will make your web pages load faster.
-
-
-## Callback Hell
-Callback hell is a term used to describe the situation where multiple asynchronous operations are performed sequentially, resulting in a series of nested callback functions. This can make the code difficult to read, maintain, and debug.
 
 ## Error handling and throwing custom errors
 We can use try/catch block.
