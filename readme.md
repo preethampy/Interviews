@@ -1,4 +1,135 @@
 # Javascript
+Javascript is a high-level, interpreted programming language used in both front-end and back-end applications.
+1. **High-level**
+    - The syntax is closer to human language, making it easier to learn, write, and understand compared to low-level languages like assembly.
+    - You write code that focuses on the logic and problem you're solving, not the nitty-gritty details of the computer's hardware.
+    - JavaScript comes with a large set of built-in functions and objects that provide ready-to-use solutions for common tasks.
+    - In summary, as a high-level language, JavaScript simplifies the programming process, allowing you to focus on building applications rather than dealing with low-level complexities.
+2. **Interpreted**
+    - An interpreted language is one that does not require compiling into machine language
+    - You write JavaScript code in a plain text file, usually with a .js extension.
+    - When you want to run the code, you pass it to an interpreter (like the Google v8 engine in a web browser)
+    - The interpreter reads each line of code, translates it into machine-readable instructions, and then executes those instructions immediately.
+    - Unlike compiled languages, there's no need to create a separate executable file before running.
+
+## Features of javascript
+1. Lightweight
+2. Cross platform
+3. Interpreted
+4. Dynamic typing (Variables in JavaScript are not bound to a specific data type)
+5. Object Oriented
+6. DOM manipulaton
+7. Supports Asynchronus Programming
+8. Server Side Scripting
+   
+## Advantages and Disadvantages
+1. **Advantages**
+   - Each and every browser and OS supports Javascript
+   - Can be used in both front-end and back-end
+   - Easy to learn
+   - Huge community and lot of packages available for swift development
+   - Needless of code compilation
+2. **Disadvantages**
+   - Can become complex as projects grow, especially with asynchronous code
+   - JavaScript code can be exposed to users, making it vulnerable to malicious attacks
+   - Might not be suitable for CPU intensive tasks
+
+## JavaScript's event loop
+1. Event loop is a part of **Javascript runtime** (A JavaScript runtime is an environment where JavaScript code is executed. It provides everything needed to run JavaScript like Engine(v8), web API's, callback queue (Task queue), microtask queue, event loop)
+2. (Call stack) Consider a simple synchronous code as below:
+    ```
+    console.log("Start");
+    for(let i=0; i<5; i++){
+        console.log("Logging");
+    }
+    console.log("End");
+    ```
+    - Paste the code on http://latentflip.com/loupe and notice
+    - `console.log("Start");` will be added to call stack and executes it and shows the output
+    - Next, Each loop will go into call stack and executes `console.log("Logging");`
+    - Finally it executes `console.log("End");`
+    - This is a very simple example that actually doesnt make use of event loop yet
+3. (Call stack) Consider another example below:
+    ```
+    function third() { }
+
+    function second() { third() }
+
+    function first() { second() }
+
+    first();
+    ```
+    - Paste the code on http://latentflip.com/loupe and notice
+    - First `first();` function will be called, which inturn calls `second()` function, which calls `third()` function and it end there. Here `first()` is added first and `third()` is added last in call stack
+    - Now the call stack is full of nested calls, now, callstack starts executing them in LIFO(Last In, First Out) order, means which has been added last to stack, will execute first.
+    - This is another very simple example that actually doesnt make use of event loop yet
+4. (Call stack, Web API's, Task queue or Callback queue, Event loop) Consider another example below:
+    ```
+    setTimeout(function a() {}, 1000);
+
+    setTimeout(function b() {}, 500);
+
+    setTimeout(function c() {}, 0);
+
+    function d() {}
+
+    d();
+    ```
+    - Paste the code on http://latentflip.com/loupe and notice
+    - `setTimeout(function a() {}, 1000);` is sent to call stack, then call stack moves it to web API's as setTimeout is a web API and it has to take care of it and after completion of executing it, it then passes the `function a()` callback function to **Task/Callback queue**, Then, event loop will keep checking the call stack while this `function a()` callback just sits and wait till call stack is empty and event loop take it and pushes to call stack later
+    - Next, `setTimeout(function b() {}, 500);` is sent to call stack, then call stack moves it to web API's as setTimeout is a web API and it has to take care of it and after completion of executing it, it then passes the `function b()` callback function to **Task/Callback queue**, Then, event loop will keep checking the call stack while this `function b()` callback just sits and wait till call stack is empty and event loop take it and pushes to call stack later
+    - Next, `setTimeout(function c() {}, 0);` is sent to call stack, then call stack moves it to web API's as setTimeout is a web API and it has to take care of it and after completion of executing it, it then passes the `function c()` callback function to **Task/Callback queue**, Then, event loop will keep checking the call stack while this `function c()` callback just sits and wait till call stack is empty and event loop take it and pushes to call stack later
+    - Next, now the call-stack runs `d()` and then the call stack will be empty and ready to take new functions to execute.
+    - Event loop notices that the call-stack is empty and it has some Tasks waiting in **Task/Callback queue** to be executed
+    - So event loop pushes the first callback function that was added to the Task/callback queue into call stack (FIFO (First-In, First-Out))
+    - Then each and every callback is executed as they are added one by one to the call stack
+5. (Call stack, Web API's, Task queue or Callback queue, Microtask queue, Event loop) Consider another example below:
+    ```
+    setTimeout(function a() {}, 0);
+
+    Promise.resolve().then(function b() {});
+    ```
+    - Paste the code on http://latentflip.com/loupe and notice
+    - `setTimeout(function a() {}, 0);` is sent to call stack, then call stack moves it to web API's as setTimeout is a web API and it has to take care of it and after completion of executing it, it then passes the `function a()` callback function to **Task/Callback queue**, Then, event loop will keep checking the call stack while this `function a()` callback just sits and wait till call stack is empty and event loop take it and pushes to call stack later
+    - Next, `Promise.resolve()` is added to call-stack, which is responsible for creating a promise object which has an initial state as pending and result as undefined
+    - Next, we have `then(function b() {})` handler, which will be listening for the outcomes/result of `Promise.resolve()` creates a promiseReaction record in webApis inside the above promise.
+    - Obviously `Promise.resolve()` resolves immediatly and the state of it will be turned to fullfilled and result will be passed to our then() handler we attached to that promise.
+    - Now the function inside then handler will be pushed into microtask queue
+    - After the call-stack is empty, as we have a task in task queue now and also a microtask in microtask queue, event loop prioritize the microtasks first and sends them into call stack one by one until the microtask queue is empty and then it comes to the tasks queue and push them one by one to call stack until its empty
+6. **Summary**
+   - JS event loop is a part of javascript engine
+   - When we run the code, the synchronus code will be executed by call-stack itself and the order of execution of call-stack is always LIFO
+   - Call-stack will always take a line of code in > execute it > then takes the next (unless there are nested functions, then it stacks one function on top of other in the order of how a function is calling other function (In LIFO order))
+   - If there is any asynchronus code, it will be added to call stack first, then it will be assigned to webapis by call stack, which inturn will push the callbacks of that asynchronus tasks to task/callback/message queue or microtask queue based on below
+   - If there are callback functions, they will be sent to task/message/callback queue and if there are Promises, then/catch/finally, async/await (functions after await) will be sent to microtask queue
+   - Event loop prioritize microtask queue over task/callback/message queue. Means it first pushes everything from task/callback/message queue to call-stack and after empting the microtask, then it will start pushing task/callback/message queue functions to call-stack to exeute.
+  7. References for future:
+  - https://www.jsv9000.app/ (Event loop visualizer)
+  - https://www.youtube.com/watch?v=eiC58R16hb8&t=24s (Javascript event loop visualized)
+  - 
+
+## functions vs methods in javascript
+In JavaScript, both functions and methods are blocks of code that perform specific tasks. However, there is a key difference:
+- **Functions:** are standalone and can be called independently.
+- **Methods**: are functions associated with an object and are called on that object.
+```
+// Function
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+}
+
+greet("Alice"); // Output: Hello, Alice!
+
+// Method
+const person = {
+  name: "Bob",
+  sayHello: function() {
+    console.log(`Hello, my name is ${this.name}.`);
+  }
+};
+
+person.sayHello(); // Output: Hello, my name is Bob.
+```
 
 ## What is difference between named and arrow functions?
 1. Syntax
@@ -51,6 +182,7 @@
         console.log("Hello")
     }
     ```
+
 ## What is scope chaining?
 When a variable is referenced inside a function, javascript first looks for it within that function's own scope. If it doesnt find the variable there, it will look in parent functions scope, then grandparents and so on. This hierarchical lookup chain is called the scope chain.
 ```
@@ -108,7 +240,6 @@ This keyword refers to the context in which a function is executed. And the cont
     const myCar = new Car("Toyota");
     console.log(myCar.brand); // Output: "Toyota"
     ```
-## call(), apply(), and bind():
 
 ## How to shallow copy and deep copy one object to another object?
     We can use spread operator "..." or `Object.assign({},obj)` to make a shallow copy. Original object will get affected if there are any nested objects when there is an update in shallow copy. To make a deep copy, use `JSON.parse(JSON.stringify(obj))`
@@ -144,6 +275,7 @@ This keyword refers to the context in which a function is executed. And the cont
 
 ## What is vanilla javascript
     Vanilla JavaScript refers to using plain JavaScript without any additional libraries or frameworks.
+
 ## Explain JavaScript cookies.
     JavaScript cookies are small text files stored on a user's computer by a web browser. They are used to store information about the user, such as login details, preferences, and shopping cart contents.
     **Uses**
@@ -169,6 +301,7 @@ This keyword refers to the context in which a function is executed. And the cont
    myFrozenObj.address.city = "London"; // This changes the nested object because Object.freeze() doesn't freeze nested objects.
    console.log(myFrozenObj); // Output: { name: "Alice", age: 30, address: { city: "London" } }
    ```
+
 ## What is the difference between document and window?
 1. Window Object:
     - Represents the entire browser window or tab.
@@ -203,17 +336,9 @@ It has 3 states:
 2. Fulfilled
 3. Rejected
 
-## Threads
-A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
-- Javascript is singlethreaded
-- Whenever multiple threads execute in a process at the same time, we call this "multithreading".
-- Multi threading is useful for CPU intensive tasks
 
 ## Pair Programming.
 In pair programming, two programmers share only one machine and work together. During the development process, one programmer will be the driver who codes and another will act as the observer (navigator) who will make sure the code is written correctly, proofread and spell-check it, while also deciding where to go next. Roles can be swapped at any time: the driver becomes the observer and vice versa. You can also call it "pairing", "paired programming", or "programming in pairs".
-
-## Long Polling.
-Long polling is defined as a web application development technique used to push information/data from servers to clients as quickly as possible. When a request is made from the client to the server, long-polling maintains the connection between the two. This connection is maintained until the information is ready to be sent from the server to the client.  Once a server receives a request from a client, the connection does not close immediately; the connection is only closed once the server has sent the data back to the client or when a timeout threshold has been reached (connection timeout).
 
 
 ## Sync vs Async
@@ -358,6 +483,7 @@ Think of it as a container that holds all the necessary information for executin
 
 ## What is lexical scoping?
 ## What is difference between ES5 and ES6?
+## call(), apply(), and bind():
 
 ## Miscellaneous
 1) JavaScript Objects are Mutable
@@ -459,6 +585,7 @@ The Context API in ReactJS provides a way to share data between components witho
 ## What are performance and optimisation techniques used in React?
 ## Shadow DOM
 ## Lifting up state in react
+## What is idempotent ?
 ## state vs props
 - props are used to pass data between two different components
 - While state is specific to each component and changes over time 
@@ -474,6 +601,15 @@ The Context API in ReactJS provides a way to share data between components witho
 
 ## NodeJs is Sync or Async ?
 Async
+
+## Threads
+A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
+- Javascript is singlethreaded
+- Whenever multiple threads execute in a process at the same time, we call this "multithreading".
+- Multi threading is useful for CPU intensive tasks
+
+## Helpers
+- User `ps -aef | grep node` to see the list of nodejs processes running on mac
 
 ## Features of nodeJs
 1) Asynchronous and non-blocking
@@ -532,6 +668,90 @@ EventEmitter is synchronous by default. This means that when an event is emitted
 
 
 ## Miscellaneous
+- Event loop visualization https://www.jsv9000.app/
+- Call stack in event loop follows LIFO (Last in - First out), means, last stack lo padindi first stack nunchi ellipothadi
+- we can use clinicjs for cpu and other node health related info
+
+# Database
+
+## SQL VS noSQL
+| SQL | noSQL |
+| ----------- | ----------- |
+| SQL stands for **Structured Query Language** | noSQL stands for **Not Only SQLe** |
+| SQL uses RDBMS (Relational Database Management Systems) like mySQL | noSQL uses mongoDB database product |
+| RDBMS uses a tabular data structure, with data represented as a set of rows and columns, making the model suitable for structured data. | Data models vary based on the type of NoSQL database used — for example, key-value, document, graph, and wide-column — making the model suitable for semi-structured and unstructured data |
+| This is a fixed schema where every row should contain the same predefined column types. It is difficult to change the schema once data is stored. | It provides a flexible schema where each set of documents/row-column/key-value pairs can contain different types of data. It’s easier to change schema, if required, due to the flexibility.|
+| This uses structured query language (SQL) | It varies based on the type of NoSQL database used. For example, MongoDB has MQL, and Neo4J uses Cypher. |
+| RDBMS is designed for vertical scaling. However, it can extend limited capabilities for horizontal scaling | NoSQL is designed for vertical and horizontal scaling |
+| Relationships are defined through foreign keys and accessed using joins | Relationships can be nested, explicit, or implicit |
+| Transactions are ACID-compliant | Transactions are either 
+ACID - or BASE-compliant |
+| Table in sql is | Collection in nosql |
+| Column in sql is | Field in nosql ({name:"Preetham"}, field is name) |
+| Row in sql is | Document in nosql |
+
+## ORM
+Object-Relational Mapping (ORM)
+ORM serves as a bridge between our application and database. It will ease the database operations hence it boosts developer productivity. Sequelize is the most used library for NodeJs as ORM.
+
+## What are vertical and horizontal scalling ?
+- vertical scaling describes adding more power to your current machines
+- horizontal scaling refers to adding additional nodes
+## What is throughput ?
+## What are ACID transactions and base transactions ?
+## Atomic Updates
+
+# Networking & System design
+## What is an API ?
+API stands for Application programming interface and it is a set of functions and procedures that allows two applications to talk to each other.
+Types of API's:
+1. Public API's
+2. Private API's
+3. Partner API's
+4. Composite API's 
+
+## What are different API protocols ?
+Protocols are a set of rules for formatting, processing data or set of rules for network communications. Few types of API protocols are as mentioned below:
+1. **REST - Representational State Transfer**
+    - Uses HTTP protocol for data transmission and are considered as web services that interact between client and servers.
+    - These are stateless, meaning no data or status is stored between requests.
+    - REST is an architecture thats popular for developing API's and is used by developer as its easy to use and understand
+2. **SOAP - Simple Object Access Protocol**
+    - This can be used to communicate with other protocols such as TCP and SMTP over the internet.
+    - This is considered as more flexible than REST API but also more restrictive
+3. **WebSockets**
+    - WebSocket is a computer communications protocol, providing a simultaneous two-way communication channel over a single Transmission Control Protocol (TCP) connection.
+    - It Enables bidirectional communication between client and server, allowing for continuous exchange once a connection is established. 
+    - This makes WebSocket APIs ideal for real-time communication.
+    - WebSocket allows data to be sent and received asynchronously
+    - Even though they achieve (in general) similar things, yes, they are really different. WebSockets typically run from browsers connecting to Application Server over a protocol similar to HTTP that runs over TCP/IP. So they are primarily for Web Applications that require a permanent connection to its server. On the other hand, plain sockets are more powerful and generic. They run over TCP/IP but they are not restricted to browsers or HTTP protocol. They could be used to implement any kind of communication.
+4. **gRPC - Google Remote Procedure Call**
+    - gRPC is ideal for backend-to-backend communication, particularly in microservices architectures.
+5. **JSON-RPC - JSON Remote Procedure Call**
+
+## What is fault tolerance ?
+Fault tolerance is a system's ability to keep operating even if one or more of its components fail. This prevents complete system crashes and minimizes disruptions for users.
+Here are a few key techniques used to achieve fault tolerance in Node.js:
+1. **Error Handling:**
+    - Try-catch blocks: These are fundamental to catching and handling errors within your code.
+    - Error events: Node.js uses events to handle errors asynchronously.
+    - Error logging: Logging errors to a centralized system helps with debugging and monitoring.
+2. **Clustering:**
+    - Node.js allows you to create multiple instances of your application (worker processes) that share the same server port.
+    - If one worker process fails, the others continue running, ensuring uptime.
+3. **Load Balancing:**
+   -  Distributes incoming traffic across multiple instances of your application.
+    - Prevents any single instance from being overwhelmed, improving performance and fault tolerance.
+4. **Circuit Breakers:**
+    - A pattern that prevents cascading failures by stopping requests to a failing service after a certain threshold.
+    - Libraries like `opossum` can be used to implement circuit breakers in Node.js.
+    - Ref to circut breaker https://medium.com/geekculture/design-patterns-for-microservices-circuit-breaker-pattern-276249ffab33
+    - Ref to a blog post on opossum https://medium.com/deno-the-complete-reference/circuit-breaker-pattern-in-node-js-a61fe2c4f2a4
+
+## Long Polling.
+Long polling is defined as a web application development technique used to push information/data from servers to clients as quickly as possible. When a request is made from the client to the server, long-polling maintains the connection between the two. This connection is maintained until the information is ready to be sent from the server to the client.  Once a server receives a request from a client, the connection does not close immediately; the connection is only closed once the server has sent the data back to the client or when a timeout threshold has been reached (connection timeout).
+
+## What is SSL ?
 
 # AWS
 ### How an EC2 instance can be established using VPC
@@ -624,10 +844,13 @@ Containers are an isolated environment to run any code. Sometimes called a sandb
     Example: `docker tag node-app preethamweb3/node-app` where 'node-app' is the name of the image in local and preethamweb3/node-app is the repository we created in docker.
     3) Then push it using `docker push preethamweb3/node-app`
     ```
-# Terminology
-## LRU VS FIFO
-## ORM
-Object-Relational Mapping (ORM)
-ORM serves as a bridge between our application and database. It will ease the database operations hence it boosts developer productivity. Sequelize is the most used library for NodeJs as ORM.
+
+# Microservices
 ## Smart Endpoints & Dumb pipes
-## Atomic Updates
+## Circut Breaker
+## Forward proxy vs Reverse proxy
+## What is an API gateway 
+
+# Terminology
+## LRU VS LFU VS FIFO
+The Least Recently Used (LRU) Cache operates on the principle that the data most recently accessed is likely to be accessed again in the near future. By evicting the least recently accessed items first, LRU Cache ensures that the most relevant data remains available in the cache.
