@@ -1,4 +1,6 @@
 # Javascript
+
+## About
 Javascript is a high-level, interpreted programming language used in both front-end and back-end applications.
 1. **High-level**
     - The syntax is closer to human language, making it easier to learn, write, and understand compared to low-level languages like assembly.
@@ -482,8 +484,166 @@ In JavaScript, an execution context is an environment in which JavaScript code i
 Think of it as a container that holds all the necessary information for executing a piece of code.
 
 ## What is lexical scoping?
-## What is difference between ES5 and ES6?
+It means that the scope of a variable is determined by its position in the code, specifically where it's declared. In other words, a variable's scope is defined by its lexical (textual) location within the code.
+
 ## call(), apply(), and bind():
+In JavaScript, call(), apply(), and bind() are methods available on all functions. They allow you to control the context (this value) of the function and how it is invoked.
+1. **call()**
+    - Purpose: Invokes a function immediately, setting the this value to the first argument passed.
+    - Arguments:
+        - First argument: The object to be used as this within the function.
+        - Subsequent arguments: The arguments of the function, passed individually.
+    - Example:
+    ```
+    const person = {
+    name: "Alice",
+    greet: function(greeting) {
+        console.log(greeting + ", " + this.name);
+    }
+    };
+
+    const anotherPerson = {
+    name: "Bob"
+    };
+
+    person.greet.call(anotherPerson, "Hello"); // Output: Hello, Bob
+    ```
+2. **apply()**
+    - Purpose: Invokes a function immediately, setting the this value to the first argument passed.
+    - Arguments:
+      - First argument: The object to be used as this within the function.
+      - Second argument: An array-like object (or array) containing the arguments of the function.
+    - Example:
+    ```
+    const numbers = [1, 2, 3];
+
+    function sum(a, b, c) {
+    return a + b + c;
+    }
+
+    console.log(sum.apply(null, numbers)); // Output: 6
+    ```
+3. **bind()**
+    - Purpose: Creates a new function that, when called, has its this value set to the provided value. It also allows you to partially apply arguments.
+    - Arguments:
+      - First argument: The object to be used as this within the new function.
+      - Subsequent arguments (optional): Arguments to be pre-filled when the new function is called.
+    - Example:
+    ```
+    const greet = {
+    greet: function(a,b){
+        console.log(`Hello ${this.name}, ${a}, ${b}`)
+    }
+    };
+
+    var greetPreetham = greet.greet.bind({name:"Preetham"});
+    var greetKushal = greet.greet.bind({name:"Kushal"},11, 22);
+    var greetRavi = greet.greet.bind({name:"Ravi"});
+
+    greetPreetham();
+    // Hello Preetham undefined undefined
+
+    greetKushal();
+    // Hello Kushal 11 22
+
+     greetRavi();
+    // Hello Ravi undefined undefined
+
+    greetRavi(44,55);
+    // Hello Ravi 44 55
+    ```
+
+## What are Prototypes and Prototypal Inheritance?
+In JavaScript, an object can inherit properties of another object. The object from where the properties are inherited is called the prototype. In short, objects can inherit properties from other objects — the prototypes.
+- When we try to access a property of an object, the property is not only searched in the object itself. It's also searched in the prototype of the object, in the prototype of the prototype, and so on – until a property is found that matches the name or the end of the prototype chain is reached.
+- If the property or method isn’t found anywhere in the prototype chain, only then will JavaScript return `undefined`.
+- Every object in JavaScript has an internal property called `[[Prototype]]`.
+- To find the `[[Prototype]]` of an object, we will use the `Object.getPrototypeOf()` method.
+- Each object has a private property (referred to as its [[Prototype]]) that maintains a link to another object called its prototype. That prototype object has its own prototype, and so on until an object whose prototype is null is reached.
+- Reference https://www.freecodecamp.org/news/prototypes-and-inheritance-in-javascript/ and https://www.w3schools.com/js/js_object_prototypes.asp
+- Example:
+    ```
+    function Person(first, last, age, eyecolor) {
+        this.firstName = first;
+        this.lastName = last;
+        this.age = age;
+        this.eyeColor = eyecolor;
+        }
+
+    Person.prototype.nationality = "English";
+    ```
+
+
+## What is Currying?
+Currying is a technique where a function with multiple arguments is transformed into a sequence of functions, with each function taking a single argument and returning another function.
+
+Example:
+
+
+    function add(a, b, c) {
+        return a + b + c;
+    }
+
+    With currying, the above function can be written as:
+
+    function curryAdd(a) {
+        return function(b) {
+            return function(c) {
+                return a + b + c;
+                };
+            };
+        }
+Currying allows you to reuse partial implementations of a function. In case you do not have all the arguments available, you can fix some arguments of the function initially and return a reusable function.
+
+```
+// Reusable function
+const addTwo = curryAdd(2);
+console.log(addTwo); // prints the function
+
+// Calling final result
+const result1 = addTwo(5)(10);
+console.log(result1); // 17
+
+const result2 = addTwo(3)(5);
+console.log(result2); // 10
+```
+addTwo is a reusable function that can be used later, when additional arguments become available.
+
+Thus, currying enhances code modularity and flexibility with partial function application. It also allows you to create functions that are tailored to specific needs as seen in the example above.
+
+Currying simplifies complex functions by breaking them down into simpler, more manageable parts. This leads to cleaner and readable code.
+
+## What are polyfills ?
+Polyfills are pieces of code that provide modern functionality to older browsers that don't support it. This ensures that your code runs seemlessly on different browsers and versions. Check below example:
+
+**Array.map**
+
+This method takes a callback function as a parameter, executes it on each array element and returns a new, modified array.
+The callback function takes three arguments: the array element, index and the array itself. The last two arguments are optional.
+```
+Array.prototype.map = function(callback) {
+  var newArray = [];
+  for (var i = 0; i < this.length; i++) {
+    newArray.push(callback(this[i], i, this));
+  }
+  return newArray;
+};
+```
+The logic is simple. Call the function for each element of the array and append each value to the new array. The this keyword is the object on which you are calling the function, in this case, the array.
+
+## Debouncing and Throttling in javascript
+1. **Throttling**
+   - Throttling is a technique used to limit the rate at which a function is called. Throttling transforms a function such that it can only be called once in a specific interval of time.
+   - Example: Once a button is clicked which makes a request to server, to restrict user from making multiple requests at once, we can use throttling to add restrictions to that function from calling for an interval of time
+2. **Debouncing**
+
+## Threads
+A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
+- Javascript is singlethreaded
+- Whenever multiple threads execute in a process at the same time, we call this "multithreading".
+- Multi threading is useful for CPU intensive tasks
+
+## What is difference between ES5 and ES6?
 
 ## Miscellaneous
 1) JavaScript Objects are Mutable
@@ -592,15 +752,28 @@ The Context API in ReactJS provides a way to share data between components witho
 
 
 
-
-
-
-
-
 # NodeJs
+## About
+Node.js is a cross-platform, open-source JavaScript runtime environment. Node.js runs on the V8 JavaScript engine, and executes JavaScript code outside a web browser. Node.js lets developers use JavaScript to write command line tools and for server-side scripting.
 
-## NodeJs is Sync or Async ?
-Async
+## Features
+- Asynchronous and Non-blocking
+- Single-Threaded Event Loop
+- Runs on top of V8 JavaScript engine
+- Cross-Platform Compatibility
+- Scalability, Fast performance
+- Node package manager (npm)
+- Huge community
+  
+## Advantages and Disadvantages
+1. **Advantages**
+   - High performance
+   - Scalability
+   - Easy to learn
+   - Quick to setup
+2. **Disadvantages**
+   - Cannot be used for CPU intensive works
+   - High memory consumption when used to develop complex applications.
 
 ## Threads
 A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
@@ -610,24 +783,7 @@ A thread is an execution context, which is all the information a CPU needs to ex
 
 ## Helpers
 - User `ps -aef | grep node` to see the list of nodejs processes running on mac
-
-## Features of nodeJs
-1) Asynchronous and non-blocking
-2) Event driven
-3) Single threaded
-4) cross platform
-5) open source
    
-## Advantage of using nodeJs
-1) High performance
-2) Scalability
-3) Easy to learn
-4) Quick to setup
-
-## Disadvantage of using nodeJs
-1) Cannot be used for CPU intensive works
-2) High memory consumption when used to develop complex applications.
-
 ## Blocking vs Non-blocking operations
 1) Blocking operations are synchronus tasks - will be sent to thread pool which is a pool of threads
 2) Non blocking operations are asynchronus tasks - handled by event loop
@@ -675,20 +831,20 @@ EventEmitter is synchronous by default. This means that when an event is emitted
 # Database
 
 ## SQL VS noSQL
-| SQL | noSQL |
-| ----------- | ----------- |
-| SQL stands for **Structured Query Language** | noSQL stands for **Not Only SQLe** |
-| SQL uses RDBMS (Relational Database Management Systems) like mySQL | noSQL uses mongoDB database product |
-| RDBMS uses a tabular data structure, with data represented as a set of rows and columns, making the model suitable for structured data. | Data models vary based on the type of NoSQL database used — for example, key-value, document, graph, and wide-column — making the model suitable for semi-structured and unstructured data |
-| This is a fixed schema where every row should contain the same predefined column types. It is difficult to change the schema once data is stored. | It provides a flexible schema where each set of documents/row-column/key-value pairs can contain different types of data. It’s easier to change schema, if required, due to the flexibility.|
-| This uses structured query language (SQL) | It varies based on the type of NoSQL database used. For example, MongoDB has MQL, and Neo4J uses Cypher. |
-| RDBMS is designed for vertical scaling. However, it can extend limited capabilities for horizontal scaling | NoSQL is designed for vertical and horizontal scaling |
-| Relationships are defined through foreign keys and accessed using joins | Relationships can be nested, explicit, or implicit |
-| Transactions are ACID-compliant | Transactions are either 
-ACID - or BASE-compliant |
-| Table in sql is | Collection in nosql |
-| Column in sql is | Field in nosql ({name:"Preetham"}, field is name) |
-| Row in sql is | Document in nosql |
+| SQL                                                                                                                                               | noSQL                                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SQL stands for **Structured Query Language**                                                                                                      | noSQL stands for **Not Only SQLe**                                                                                                                                                           |
+| SQL uses RDBMS (Relational Database Management Systems) like mySQL                                                                                | noSQL uses mongoDB database product                                                                                                                                                          |
+| RDBMS uses a tabular data structure, with data represented as a set of rows and columns, making the model suitable for structured data.           | Data models vary based on the type of NoSQL database used — for example, key-value, document, graph, and wide-column — making the model suitable for semi-structured and unstructured data   |
+| This is a fixed schema where every row should contain the same predefined column types. It is difficult to change the schema once data is stored. | It provides a flexible schema where each set of documents/row-column/key-value pairs can contain different types of data. It’s easier to change schema, if required, due to the flexibility. |
+| This uses structured query language (SQL)                                                                                                         | It varies based on the type of NoSQL database used. For example, MongoDB has MQL, and Neo4J uses Cypher.                                                                                     |
+| RDBMS is designed for vertical scaling. However, it can extend limited capabilities for horizontal scaling                                        | NoSQL is designed for vertical and horizontal scaling                                                                                                                                        |
+| Relationships are defined through foreign keys and accessed using joins                                                                           | Relationships can be nested, explicit, or implicit                                                                                                                                           |
+| Transactions are ACID-compliant                                                                                                                   | Transactions are either                                                                                                                                                                      |
+| ACID - or BASE-compliant                                                                                                                          |
+| Table in sql is                                                                                                                                   | Collection in nosql                                                                                                                                                                          |
+| Column in sql is                                                                                                                                  | Field in nosql ({name:"Preetham"}, field is name)                                                                                                                                            |
+| Row in sql is                                                                                                                                     | Document in nosql                                                                                                                                                                            |
 
 ## ORM
 Object-Relational Mapping (ORM)
