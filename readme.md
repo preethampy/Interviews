@@ -636,12 +636,83 @@ The logic is simple. Call the function for each element of the array and append 
    - Throttling is a technique used to limit the rate at which a function is called. Throttling transforms a function such that it can only be called once in a specific interval of time.
    - Example: Once a button is clicked which makes a request to server, to restrict user from making multiple requests at once, we can use throttling to add restrictions to that function from calling for an interval of time
 2. **Debouncing**
-
+    - Debouncing is a technique in programming that delays the execution of your code until the user stops performing a certain action for a specified amount of time.
+    - Example: we want to show results for a search query, but only after the user stops typing for a second. A user could keep typing something but we only take input when he stops for a second. So we dont need to send a search query request to backend for each letter the user types, instead we can send the whole input at a time when user types and stops for a specific amount of time.
+    - https://replit.com/@preethamweb3/Debounce#script.js
 ## Threads
 A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
 - Javascript is singlethreaded
 - Whenever multiple threads execute in a process at the same time, we call this "multithreading".
 - Multi threading is useful for CPU intensive tasks
+
+## Exports in react and node
+**React**
+1. Uses ES Modules (ESM) syntax
+2. We use `import * from *;` to import modules
+3. **Named exports**
+    ```
+    // MyComponent.js
+    export const message = "Hello from MyComponent!";
+
+    export function greet(name) {
+      return `Hi, ${name}!`;
+    }
+
+    // SomeOther.js
+    import {message, greet} from "./MyComponent.js"
+    ```
+4. **Default exports**
+    ```
+    // MyComponent.js
+    const MyComponent = () => {
+      return <div>Hello, World!</div>;
+    };
+
+    export default MyComponent;
+
+    // SomeOther.js
+    import MyComponent from './MyComponent';
+
+    // Use MyComponent directly in your JSX
+    ```
+**Nodejs**
+1. Uses CommonJs module system
+2. We use `require` to import modules
+3. **Named exports**
+    ```
+    // module.js
+    function add(a, b) {
+      return a + b;
+    }
+    const subtract = (a, b) => a - b;
+
+    exports.add = add;
+    exports.subtract = subtract;
+
+    // SomeOther.js
+    const { add, subtract } = require('./module.js');
+
+    console.log(add(2, 3)); // Output: 5
+    ```
+4. **Default exports**
+    ```
+    // module.js
+    const calculator = {
+      add(a, b) {
+        return a + b;
+      },
+      subtract(a, b) {
+        return a - b;
+      }
+    };
+
+    module.exports = calculator;
+
+    // SomeOther.js
+    const calculator = require('./module.js');
+
+    console.log(calculator.add(2, 3)); // Output: 5
+    ```
 
 ## What is difference between ES5 and ES6?
 
