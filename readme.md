@@ -108,7 +108,6 @@ Javascript is a high-level, interpreted programming language used in both front-
   7. References for future:
   - https://www.jsv9000.app/ (Event loop visualizer)
   - https://www.youtube.com/watch?v=eiC58R16hb8&t=24s (Javascript event loop visualized)
-  - 
 
 ## functions vs methods in javascript
 In JavaScript, both functions and methods are blocks of code that perform specific tasks. However, there is a key difference:
@@ -237,9 +236,11 @@ This keyword refers to the context in which a function is executed. And the cont
     ```
     function Car(brand) {
     this.brand = brand;
+    console.log(this) // OUTPUT: Car{brand:"Toyota"} but without new keyword, we get global object along with brand: "Toyota" but cannot be accessed from its instance like we did with new keyword
     }
 
-    const myCar = new Car("Toyota");
+    const myCar = new Car("Toyota"); // this here means "Car {brand:"Toyota"} and myCar.brand will output "Toyota"
+    const myCar = Car("Toyota"); // this here means "global obj + brand:"Toyota" and myCar.brand will output undefined
     console.log(myCar.brand); // Output: "Toyota"
     ```
 
@@ -279,11 +280,12 @@ This keyword refers to the context in which a function is executed. And the cont
     Vanilla JavaScript refers to using plain JavaScript without any additional libraries or frameworks.
 
 ## Explain JavaScript cookies.
-    JavaScript cookies are small text files stored on a user's computer by a web browser. They are used to store information about the user, such as login details, preferences, and shopping cart contents.
+JavaScript cookies are small text files stored on a user's computer by a web browser. They are used to store information about the user, such as login details, preferences, and shopping cart contents.
     **Uses**
     1. User authentication: Storing login information so users don't have to re-enter it every time they visit a website.
     2. Personalization: Remembering user preferences, such as language, theme, or font size.
     3. Tracking: Monitoring user behavior across a website or multiple websites for analytics or advertising purposes.
+        ![](https://res.cloudinary.com/practicaldev/image/fetch/s--UcdjcWFO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/95ialyrlxjnprg2btnva.png)
 
 ## Explain the difference between Object.freeze() vs const.
    - const: Prevents variable reassignment but not modification of the value in an object.
@@ -571,6 +573,28 @@ In JavaScript, an object can inherit properties of another object. The object fr
         }
 
     Person.prototype.nationality = "English";
+    
+    const preetham = new Person("Enjamuri","Preetham","27","brown");
+    console.log(Object.getPrototypeOf(preetham));
+    // OUTPUT: Person { nationality: 'English' }
+
+
+    // Define the new method on the Array prototype
+    Array.prototype.myCustomMethod = function(arg) {
+    // 'this' refers to the array the method is called on
+    console.log("Array:", this); 
+    console.log("Argument:", arg); 
+    // Perform your desired operations here
+    };
+
+    // Create an array
+    const myArray = [1, 2, 3];
+
+    // Use the custom method
+    myArray.myCustomMethod("Hello"); 
+
+    // OUTPUT: Array: [ 1, 2, 3 ]
+               Argument: Hello
     ```
 
 
