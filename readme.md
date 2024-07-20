@@ -635,10 +635,12 @@ The logic is simple. Call the function for each element of the array and append 
 1. **Throttling**
    - Throttling is a technique used to limit the rate at which a function is called. Throttling transforms a function such that it can only be called once in a specific interval of time.
    - Example: Once a button is clicked which makes a request to server, to restrict user from making multiple requests at once, we can use throttling to add restrictions to that function from calling for an interval of time
+   - https://replit.com/@preethamweb3/Nodejs#index.js
 2. **Debouncing**
     - Debouncing is a technique in programming that delays the execution of your code until the user stops performing a certain action for a specified amount of time.
     - Example: we want to show results for a search query, but only after the user stops typing for a second. A user could keep typing something but we only take input when he stops for a second. So we dont need to send a search query request to backend for each letter the user types, instead we can send the whole input at a time when user types and stops for a specific amount of time.
     - https://replit.com/@preethamweb3/Debounce#script.js
+
 ## Threads
 A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
 - Javascript is singlethreaded
@@ -727,7 +729,7 @@ A thread is an execution context, which is all the information a CPU needs to ex
 
 # Reactjs
 
-##  How does React work?
+## How does React work?
 1) React works by creating a virtual DOM (Document Object Model) in memory, which is a lightweight representation of the actual DOM.
 2) When a component's state (data) changes, React creates a new virtual DOM representation of that component.
 3) React then compares this new virtual DOM with the previous one to identify the differences. This process is called "diffing." (Diffing algorithm)
