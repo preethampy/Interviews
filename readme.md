@@ -729,6 +729,73 @@ A thread is an execution context, which is all the information a CPU needs to ex
 
 # Reactjs
 
+## React life cycle
+Each component in React has a lifecycle which you can monitor and manipulate during its three main phases.
+The three phases are: **Mounting**, **Updating**, and **Unmounting**. Also, the components in react are of two types 1) Function Based 2) Class Based
+| Class Based | Function Based |
+| ----------- | ----------- |
+| Also known as `stateFull` component as we can initialize state in it | Also known as `stateLess` component as we cannot initialize state in it.(But we have `useState` hook to make it a stateFull component like class component) |
+| Here we use `lifecycle methods` | Here we **can't use** `lifecycle methods` but we use **React hooks** |
+![](https://miro.medium.com/v2/resize:fit:1400/format:webp/1*bsk4y_rRxmX_Qtol3H3caw.png)
+### Class Based
+**Mount**
+React has four built-in methods that gets called, in this order, when mounting a component.
+1. **constructor()**
+- The constructor() method is called before anything else, when the component is initiated, and it is the natural place to set up the initial state and other initial values.
+2. **getDerivedStateFromProps()** 
+- This method is called right before rendering the element(s) This is the natural place to set the state object based on the initial props.
+3. **render()** 
+- render() method is required, and is the method that actually outputs the HTML to the DOM
+4. **componentDidMount()**
+- The componentDidMount() method is called after the component is rendered. This is where you run statements that requires that the component is already placed in the DOM
+
+**Update**
+A component is updated whenever there is a change in the component's state or props.
+1. **getDerivedStateFromProps()**
+- This is the first method that is called when a component gets updated. This is still the natural place to set the state object based on the initial props
+2. **shouldComponentUpdate()**
+- In the shouldComponentUpdate() method you can return a Boolean value that specifies whether React should continue with the rendering or not. The default value is true.
+3. **render()**
+- The render() method is of course called when a component gets updated, it has to re-render the HTML to the DOM, with the new changes.
+4. **getSnapshotBeforeUpdate()**
+- In the getSnapshotBeforeUpdate() method you have access to the props and state before the update, meaning that even after the update, you can check what the values were before the update.
+5. **componentDidUpdate()**
+- The componentDidUpdate method is called after the component is updated in the DOM.
+
+**Unmounting**
+when a component is removed from the DOM
+1. **componentWillUnmount**
+- The componentWillUnmount method is called when the component is about to be removed from the DOM
+
+### Function Based
+There are no lifecycle methods in function based, instead we have react hooks.
+We can use below hooks instead of class based lifecycle methods in function based.
+1. Instead of `componentDidMount` use `useEffect`
+    ```
+    useEffect(()=>{
+        
+    },[]);
+    ```
+2. Instead of `componentDidUpdate` use `useEffect`
+    ```
+    useEffect(()=>{
+        // called everytime there is a dependency update
+    },[dependencies]);
+    
+    useEffect(()=>{
+        // called everytime there is any kind of changes or updates in component
+    });
+    ```
+3. Instead of `componentWillUnMount` use `useEffect`
+    ```
+    useEffect(()=>{
+        // below return function will be called before unmounting
+        return (()=>{
+          // code here will be called while unmounting
+        });
+    },[]);
+    ```
+4. Instead of ``shouldComponentUpdate` use `useMemo`
 ## How does React work?
 1) React works by creating a virtual DOM (Document Object Model) in memory, which is a lightweight representation of the actual DOM.
 2) When a component's state (data) changes, React creates a new virtual DOM representation of that component.
