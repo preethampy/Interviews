@@ -1008,6 +1008,13 @@ Nodejs architecture/runtime depends on mainly two dependencies **V8 engine** and
         2. **Thread Pool**
             - Thread pool in nodejs is responsible for executing heavy tasks like files related, timers, compression etc 
 
+## Phases in node event loop
+1. Timers
+2. IO logic
+3. Polling
+4. Check
+5. Close
+
 ## What happens when we run a node application ?
 1. All the `require` modules code that our node application has are added to `main thread` and are imported
 2. Then all the top level code's, means, code that are not inside callback function will be added to `main thread` and are executed
@@ -1200,9 +1207,15 @@ ORM serves as a bridge between our application and database. It will ease the da
 ## What are vertical and horizontal scalling ?
 - vertical scaling describes adding more power to your current machines
 - horizontal scaling refers to adding additional nodes
+
 ## What is throughput ?
+Throughput is the speed at which the database can perform read or write operations; it's measured in the number of read or write operations per second.
+
 ## What are ACID transactions and base transactions ?
-## Atomic Updates
+- Atomicity
+- Consistency
+- Isolation
+- Durability
 
 # Networking & System design
 ## What is an API ?
