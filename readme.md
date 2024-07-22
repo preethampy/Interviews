@@ -281,10 +281,11 @@ This keyword refers to the context in which a function is executed. And the cont
 
 ## Explain JavaScript cookies.
 JavaScript cookies are small text files stored on a user's computer by a web browser. They are used to store information about the user, such as login details, preferences, and shopping cart contents.
-    **Uses**
-    1. User authentication: Storing login information so users don't have to re-enter it every time they visit a website.
-    2. Personalization: Remembering user preferences, such as language, theme, or font size.
-    3. Tracking: Monitoring user behavior across a website or multiple websites for analytics or advertising purposes.
+
+**Uses**
+1. User authentication: Storing login information so users don't have to re-enter it every time they visit a website.
+2. Personalization: Remembering user preferences, such as language, theme, or font size.
+3. Tracking: Monitoring user behavior across a website or multiple websites for analytics or advertising purposes.
         ![](https://res.cloudinary.com/practicaldev/image/fetch/s--UcdjcWFO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/95ialyrlxjnprg2btnva.png)
 
 ## Explain the difference between Object.freeze() vs const.
@@ -451,6 +452,18 @@ Here are some ways to reduce load times for web applications:
 ## Callback Hell
 Callback hell is a term used to describe the situation where multiple asynchronous operations are performed sequentially, resulting in a series of nested callback functions. This can make the code difficult to read, maintain, and debug.
 
+```
+function fetch("google.com", function(data){
+    decode(data,function(decodedData){
+        encode(decodedData, function(output){
+            process(output,function(final){
+                console.log(final);
+            })
+        })
+    })
+})
+```
+
 ## Function arguments vs Function parameters
 
 ```   
@@ -470,16 +483,40 @@ Some built-in HOF's are:
  - `reduce()`
  -  `filter()`
  - `sort()`
+ - Custom:
+    ```
+    function operate(x, y, operation) {
+    return operation(x, y);
+    }
 
-## JS is Sync or Async ?
-Sync
-https://www.freecodecamp.org/news/synchronous-vs-asynchronous-in-javascript/
+    function add(a, b) {
+    return a + b;
+    }
 
-## Array Methods
-https://dev.to/devsmitra/28-javascript-array-hacks-a-cheat-sheet-for-developer-5769
+    console.log(operate(1,2,add)) //OUTPUT: 3
+    ```
 
 ## Factory Functions
 A JavaScript function that returns an object is known as a factory function. Factory functions often accept parameters in order to customize the returned object.
+```
+function createRobot(name) {
+    return {
+        name: name,
+        talk: function () {
+            console.log('My name is '
+                + name + ', the robot.');
+        }
+    };
+}
+ 
+//Create a robot with name Chitti
+const robo1 = createRobot('Chitti');
+ 
+robo1.talk(); // OUTPUT: My name is Chitti the robot. 
+```
+
+## Array Methods
+https://dev.to/devsmitra/28-javascript-array-hacks-a-cheat-sheet-for-developer-5769
 
 ## What is execution context?
 In JavaScript, an execution context is an environment in which JavaScript code is executed. It defines the scope of variables, functions, and the this keyword.
@@ -902,14 +939,18 @@ In React, the main difference between useState and useRef is that:
 ## What is the use of Context API in ReactJS?
 The Context API in ReactJS provides a way to share data between components without having to manually pass props down through the component tree. This is particularly useful for data that needs to be accessed by many components at different levels
 
-## What is useImperativeHandle?
-## What are performance and optimisation techniques used in React?
-## Shadow DOM
-## Lifting up state in react
-## What is idempotent ?
+## What is Idempotence in react ?
+Idempotence in React refers to the idea that a component's rendering function should produce the same output given the same input (props and state), no matter how many times it is called.
+
 ## state vs props
 - props are used to pass data between two different components
 - While state is specific to each component and changes over time 
+
+## What is useImperativeHandle?
+The useImperativeHandle hook is used to create a custom interface between a child and its parent component. It is commonly used in situations where a parent component needs to interact with a child component directly, such as for form validation or handling of user input.
+## What are performance and optimisation techniques used in React?
+## Shadow DOM
+## Lifting up state in react
 
 
 
@@ -978,6 +1019,10 @@ Nodejs architecture/runtime depends on mainly two dependencies **V8 engine** and
 ## Node references
 1. https://dev.to/nodedoctors/an-animated-guide-to-nodejs-event-loop-3g62 - nodejs event loop animated guide
 2. https://dev.to/nodedoctors/animated-nodejs-event-loop-phases-1mcp
+3. https://medium.com/@manikmudholkar831995/clustering-and-pm2-multitasking-in-nodejs-c6b10249cfd4
+4. https://medium.com/@manikmudholkar831995/event-loop-in-nodejs-999f6db7eb04
+5. https://medium.com/@manikmudholkar831995/worker-threads-multitasking-in-nodejs-6028cdf35e9d
+6. https://www.scaler.com/topics/nodejs/event-loop-in-node-js/
 
 ## What is REPL in nodejs ?
 REPL an isolated environment that allows us to run javascript code outside of the browser (example: terminal)
