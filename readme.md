@@ -819,7 +819,7 @@ We can use below hooks instead of class based lifecycle methods in function base
         });
     },[]);
     ```
-4. Instead of ``shouldComponentUpdate` use `useMemo`
+4. Instead of `shouldComponentUpdate` use `useMemo`
 ## How does React work?
 1) React works by creating a virtual DOM (Document Object Model) in memory, which is a lightweight representation of the actual DOM.
 2) When a component's state (data) changes, React creates a new virtual DOM representation of that component.
@@ -855,13 +855,10 @@ The state is a built-in React object that is used to contain data or information
 The change in state can happen as a response to user action or system-generated events. It determines the behavior of the component and how it will render.
 
 ## What is a higher-order component in React?
-A higher-order component acts as a container for other components. This helps to keep components simple and enables re-usability. They are generally used when multiple components have to use a common logic. 
+In React, a higher-order component is a function that takes a component as an argument and returns a new component that wraps the original component. A higher-order component acts as a container for other components. This helps to keep components simple and enables re-usability. They are generally used when multiple components have to use a common logic. 
 
 ## What are even emitters in react js ?
 React event emitters simplify communication between components by providing a channel for them to send and receive messages. This pattern is especially beneficial when the components are not directly related, such as siblings or deeply nested child components.
-
-## What are Higher-order components in reactjs ?
-In React, a higher-order component is a function that takes a component as an argument and returns a new component that wraps the original component.
 
 ## What are custom hooks in reactjs ?
 Custom hooks in React are JavaScript functions that start with the word use and allow you to extract and reuse stateful logic from components. They enable you to share component logic that is used by multiple components.
@@ -928,7 +925,7 @@ Node.js is a cross-platform, open-source JavaScript runtime environment. Node.js
 - Scalability, Fast performance
 - Node package manager (npm)
 - Huge community
-  
+
 ## Advantages and Disadvantages
 1. **Advantages**
    - High performance
@@ -939,11 +936,156 @@ Node.js is a cross-platform, open-source JavaScript runtime environment. Node.js
    - Cannot be used for CPU intensive works
    - High memory consumption when used to develop complex applications.
 
+## What is a Process ?
+A process represents an instance of the Node.js runtime environment executing your code. A process is just a program which is currently executing.
+**Example**:
+1. When we start our node server/application on a computer, a node process is created and will be running on that computer. It can be seen in task manager/ monitor(in macos).
+2. We can actually access this node `process` from node application using `process` variable
+3. Any application (Steam, Browser, Mongodb Compass) are example of process
+
+Every process has one main thread, read below
+
+## What is a Thread ?
+A thread is responsible for executing a program code in the process. By default, every process has one main thread.
+
+## What is a Thread Pool ?
+Thread pool is a pool of threads, basically group of 4 threads, assigned to perfom expensive tasks (asynchronus) like dealing with files, timers, cryptographic, compression related, dns lookups. They are configurable upto 1024 threads
+
+## Architecture of NodeJs
+Nodejs architecture/runtime depends on mainly two dependencies **V8 engine** and **LIBUV** (It also depends on ZLIB for compression, HTTP-PARSER for parsing http, OPENSSL for cyptography and etc):
+1. **V8 Engine**
+    - It is responsible for converting the javascript code into machine code that a computer can understand and execute
+    - Written in c++ along with javascript
+2. **LIBUV**
+    - libuv is an open source library with strong focus on dealing with asynchronus IO
+    - libuv is written in c
+    - At client side, browsers doesnt allow us to access underlying clients OS details, file/folder system etc. So in browsers we cannot use javascript to read and write to client's machine. But we have that capability with javascript when using nodejs and this capability is provided by libuv.
+    - Libuv gives nodejs access to underlying computer OS, file system, networking and more
+    - Libuv also implements two important features of nodejs: 
+        1. **Event Loop**
+            - Event Loop in nodejs is responsible for executing easy tasks like callback functions, network IO's
+        2. **Thread Pool**
+            - Thread pool in nodejs is responsible for executing heavy tasks like files related, timers, compression etc 
+
+## What happens when we run a node application ?
+1. All the `require` modules code that our node application has are added to `main thread` and are imported
+2. Then all the top level code's, means, code that are not inside callback function will be added to `main thread` and are executed
+3. Then all the code that runs asynchronusly (ex: `fs.readFile("users.csv",(error, data)=>{ console.log(data) })`) will be added to `thread pool` but not the main thread.
+4. When the job of `fs.readFile()` is done, then its callback function `(error, data)=>{ console.log(data) }` is pushed to **event loop**
+5. Now, the callback functions that are pushed to event loop wont execute immediatly. They are pushed to `main thread` when the `main thread` is empty.
+6. **All the heavy tasks (asynchronus tasks) are offloaded to thread pool**
+
+## Node references
+1. https://dev.to/nodedoctors/an-animated-guide-to-nodejs-event-loop-3g62 - nodejs event loop animated guide
+2. https://dev.to/nodedoctors/animated-nodejs-event-loop-phases-1mcp
+
+## What is REPL in nodejs ?
+REPL an isolated environment that allows us to run javascript code outside of the browser (example: terminal)
+- R stands for READ, it means reading the user input
+- E stands for EVALV, it means evaluating the user input
+- P stands for PRINT, it means printing the user input
+- L stands for LOOP, it means returning back and waiting for new input
+We can do this just by typing "node" in terminal and then we can start typing javascript expressions
+
+## How do you read input from users from terminal ?
+We can import `readline` module that nodejs provides to do that.
+    ```
+    // Taking user inputs
+    const readline = require("readline");
+
+    const askName = readline.createInterface({
+        // Where to ask for input
+        input:process.stdin,
+
+        // Where to show the output
+        output:process.stdout,
+    });
+
+    // What to prompt/ask in terminal
+    askName.question("What is your name ?",(name)=>{
+        console.log("You entered: ",name);
+        askName.close();
+    });
+
+    // We can also listen to close event like below
+    askName.on("close",()=>{
+        console.log("Name given, closing now")
+    });
+    ```
+
+## How do you create a http server using nodejs ?
+    ```
+    const http = require("http");
+
+    http
+    .createServer((req,res)=>{
+        if(req.url == "/hi"){
+            res.end("Hey");
+        }
+        else{
+            res.end("Request received");
+        }
+    })
+    .listen(3004);
+
+    ```
+
+## How does web work ?
+1) We type google.com
+2) Browser first search for ip address that is registered with google.com domain in DNS(domain name server)
+3) That ip address (ex: 198.182.74.1:3000) will be sent to browser by DNS and browser replaces the domain with ip address
+4) Then a TCP/IP connection will be established between client(browser) and server. The TCP/IP protocol here defines how the data travels across the web.
+    - The job of TCP is to breakup the requests/responses into thousands of chunks called `packets` before they are sent
+    - Then when it reaches the destination, it will reassemble those packets into original request/response so that they arrive as quickly as possible
+    - The job of IP here is to route these request/responses over the internet ensuring it arrives at the right destination by using the IP address on each of those packets
+5) Then we will send HTTP-request for which server will also respond with HTTP-response. HTTP (Hyper Text Transfer Protocol) is a set of rules and properties (host, method(GET, POST), request-target(/home, /posts), request-headers, body etc) that a server needs in order to process the request. When request is processed, server will respond will HTTP-response that has properties like status code, response-headers, body etc.
+
+## What is an event-driven architecture ?
+An event-driven architecture has 3 main things:
+1) **Event Emitter** - Emits event
+2) **Event Listener** - Listen for the events emitted
+3) **Event Handler** - a callback function that gets executed depending on events that are emitted
+**Examples:**
+- A request hitting server - (http module inherits from nodejs event emitter class)
+    ```
+    const http = require("http);
+    const server = http.createServer();
+
+    server.listen(8000);
+
+    server.on("request", (req, res)=>{
+        console.log("Request received)!
+    });
+    ```
+- A timer expiry
+- A file finishing to read - (fs module inherits from nodejs event emitter class)
+- Streams (stream module inherits from nodejs event emitter class)
+
+## How do you create events or custom events in nodejs ?
+Events in nodejs can be created using `events` module that nodejs provides.
+```
+// Custom events
+const events = require("events");
+
+const eventEmitter = new events.EventEmitter();
+
+// Initialize the listener and handler first
+eventEmitter.on("userCreated",(name, age)=>{
+    console.log("User details: ",name, age)
+});
+
+// Then emit the event
+eventEmitter.emit("userCreated","Preetham",26);
+```
+
 ## Threads
 A thread is an execution context, which is all the information a CPU needs to execute a stream of instructions.
 - Javascript is singlethreaded
 - Whenever multiple threads execute in a process at the same time, we call this "multithreading".
 - Multi threading is useful for CPU intensive tasks
+
+## What do you mean by single threaded ?
+Javascript is singlethreaded, Which means it can only take advantage of one CPU core.
 
 ## Helpers
 - User `ps -aef | grep node` to see the list of nodejs processes running on mac
@@ -981,16 +1123,12 @@ In Node.js, streams are a powerful way to handle data efficiently, especially wh
 - worker threads provide an isolated event loop and V8 runtime in the same process,.
 - child processes are separate instances of the entire Node. js runtime
 
-## Event Emitter
-EventEmitter is synchronous by default. This means that when an event is emitted, all listeners attached to that event are called immediately in the order they were registered, blocking further code execution until all listeners have finished.
-
-## Event Loop
-
 
 ## Miscellaneous
 - Event loop visualization https://www.jsv9000.app/
 - Call stack in event loop follows LIFO (Last in - First out), means, last stack lo padindi first stack nunchi ellipothadi
 - we can use clinicjs for cpu and other node health related info
+- Use `mkfile -n 1g temp_1GB_file ` to create a 1gb temp file
 
 # Database
 
