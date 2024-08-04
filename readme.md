@@ -1,3 +1,37 @@
+# HTML
+## What is DOCTYPE in html ?
+## What is <head></head> type ?
+## Better place to link <scrip> is in head or body tag ?
+## Defer and async attribute
+## Can we create custom elements in html ?
+## Difference between inline and block
+# Javascript fundamentals
+## Pre vs Post Increments
+## Copy vs Shallow Copy vs Deep Copy
+
+## Types
+1. `typeof` anything that starts with new keyword is object
+2. `typeof` anything that is derived from a String/Number object are string/number
+3. `typeof` anything that is declared directly(without any String, Number) are string/number
+```
+const str = new String("pree");
+const strr = String("pree");
+const strrr = "pree";
+```
+
+## Sorting
+- By default, the sort() method sorts the elements as strings, so the array [31, 2, 8] will be sorted as [“2”, “31”, “8”]
+- Sorts in-place (modifies the original variable)
+## Parentheses
+When we write anything inside parentheses (), they are treated as expressions. Only the last expression result will be returned. So the output of below is 20
+```
+let a = 10;
+let b = (a, a + 10);
+
+console.log(b);
+// OUTPUT: 20
+```
+
 # Javascript
 
 ## About
@@ -411,19 +445,19 @@ Hoisting is the default behaviour of javascript where all the variable and funct
 ## Data Types
 ###  Primitive
 Primitive data types are the basic data types that store a single value, such as a number, string, or boolean.
-1. String  
-2. Number  
-3. Bigint  
-4. Boolean  
-5. Undefined  `typeof(undefined) is undefined`
-6. Null  `typeof(null) is object`
-7. Symbol  
-8. Object
+1. String `typeof(String) is function`
+2. Number  `typeof(Number) is function`
+3. Bigint  `typeof(Bigint) is function`
+4. Boolean  `typeof(Boolean) is function`
+5. Symbol `typeof(Symbol) is function`
+6. Object `typeof(Object) is function`
+7. Undefined  `typeof(undefined) is undefined`
+8. Null  `typeof(null) is object`
 
 ### Non-Primitive
 The data types that are derived from primitive data types of the JavaScript language are known as non-primitive data types.
-1. Array object
-2. Date object
+1. Array object `typeof(Array) is function`
+2. Date object `typeof(Date) is function`
 
 ## Callback Functions
 A callback is a function passed as an argument to another function.
@@ -1081,6 +1115,11 @@ We can import `readline` module that nodejs provides to do that.
     .listen(3004);
 
     ```
+## What is dependency injection ?
+
+## Websockets vs Socketio
+
+## Websocket vs REST apis
 
 ## How does web work ?
 1) We type google.com
