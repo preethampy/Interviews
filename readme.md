@@ -7,6 +7,11 @@
 ## Difference between inline and block
 
 # Javascript fundamentals
+## Links
+1. https://www.geeksforgeeks.org/javascript-output-based-interview-questions/
+2. https://rowdycoders.com/top-50-most-asked-javascript-logical-output-interview-qa
+3. 
+
 ## Pre vs Post Increments
 1. Both are used to increment a variable value with 1
 2. Both will change the value in-place (modifies the original variable)
@@ -24,7 +29,29 @@
     ```
 
 ## Copy vs Shallow Copy vs Deep Copy
+```
+const obj1 = {a:1,b:2, c:{d:0}}
+const obj2 = obj1;
+const obj3 = {...obj1}
+// obj2.c.d=5
+// obj1.c.d=5
+// obj2.a=5
+obj1.b=9
+console.log(obj1);
+console.log(obj2);
+console.log(obj3);
+/**
+Changing original object will change only direct copy variables (but not shadow copy variable object)
+Changing direct copy variable of object will change the original object as well (but not shadow copy variable object)
 
+Changing original nested object will change both direct copy and shadow copy variables
+Changing direct copy variable of object will change the original object as well as shadow copy variable object
+
+Changing shadow copy variable will only change that object but not original or direct copy objects
+Changing shadow copy nested object varaible will change shadow copy, direct copy, original objects too
+ */
+ ```
+ 
 ## Types
 1. `typeof` anything that starts with new keyword is object
 2. `typeof` anything that is derived from a String/Number object are string/number
@@ -1192,15 +1219,18 @@ We can import `readline` module that nodejs provides to do that.
     ```
 
 ## Child process vs Cluster vs Worker thread (modules)
+
 **Worker Threads**
 1. The `node:worker_threads` module enables the use of threads that execute JavaScript in parallel.
 2. Workers (threads) are useful for performing CPU-intensive JavaScript operations.
 3. They do not help much with I/O-intensive work.
 4. worker_threads can share memory. They do so by transferring ArrayBuffer instances or sharing SharedArrayBuffer instances.
+
 **Child process**
 1. child process module is used to create and manage child processes which allows us to run external applications, scripts or shell commands from within nodejs application.
 2. It has 4 methods `spawn`, `exec`, `execFile`, `fork`
 3. Communication between parent and child can be achieved using sdtin and stdout or IPC (inter process communication) when using `fork`
+
 **Clusters**
 1. Clusters of Node.js processes can be used to run multiple instances of Node.js that can distribute workloads among their application threads.
 2. Clusters module is built on top of `child_process` module.
