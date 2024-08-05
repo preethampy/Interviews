@@ -1198,8 +1198,9 @@ We can import `readline` module that nodejs provides to do that.
 3. They do not help much with I/O-intensive work.
 4. worker_threads can share memory. They do so by transferring ArrayBuffer instances or sharing SharedArrayBuffer instances.
 **Child process**
-1. The node:child_process module provides the ability to spawn subprocesses in a manner that is similar
-2. 
+1. child process module is used to create and manage child processes which allows us to run external applications, scripts or shell commands from within nodejs application.
+2. It has 4 methods `spawn`, `exec`, `execFile`, `fork`
+3. Communication between parent and child can be achieved using sdtin and stdout or IPC (inter process communication) when using `fork`
 **Clusters**
 1. Clusters of Node.js processes can be used to run multiple instances of Node.js that can distribute workloads among their application threads.
 2. Clusters module is built on top of `child_process` module.
