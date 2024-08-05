@@ -5,8 +5,24 @@
 ## Defer and async attribute
 ## Can we create custom elements in html ?
 ## Difference between inline and block
+
 # Javascript fundamentals
 ## Pre vs Post Increments
+1. Both are used to increment a variable value with 1
+2. Both will change the value in-place (modifies the original variable)
+2. But pre-increment returns new incremented value and post-increment returns original value (not incremented value)
+3. **Example:**
+    ```
+    let x = 5;
+    let y = 5;
+    
+     // post-increment
+    console.log(x++); // 5
+    
+    // pre-increment
+    console.log(++y); // 6
+    ```
+
 ## Copy vs Shallow Copy vs Deep Copy
 
 ## Types
@@ -18,6 +34,26 @@ const str = new String("pree");
 const strr = String("pree");
 const strrr = "pree";
 ```
+
+## Operator
+1. console.log(1 && 0) // && operator always picks 0(falsy) if exists or second operand
+2. console.log(10 || 0) // || operator always picks 1(truthy) if exists or the highest number
+
+## Comparision
+1. **String vs String**
+    -  JavaScript uses the so-called “dictionary” or “lexicographical” order.
+    - In other words, strings are compared letter-by-letter
+    ```
+     alert( 'Z' > 'A' ); // true
+     alert( '9' > '11' ); // true (9 > 1)
+    ```
+    - But lower case are greater than upper case `"a">"A" (true)`
+2. **String vs Other types**
+    - When comparing with different types, javascript converts the vlaues to numbers.
+    - `alert( '2' > 1 ); // true, string '2' becomes a number 2`
+    - For boolean values, true becomes 1 and false becomes 0 `alert( true == 1 ); // true alert( false == 0 ); // true`
+3. **Other comparision operators** work same like **==, >=, <=, != etc**
+4. **undefined** only equals `null, undefined` and everything else is `false`
 
 ## Sorting
 - By default, the sort() method sorts the elements as strings, so the array [31, 2, 8] will be sorted as [“2”, “31”, “8”]
@@ -1119,7 +1155,91 @@ We can import `readline` module that nodejs provides to do that.
 
 ## Websockets vs Socketio
 
+
 ## Websocket vs REST apis
+
+## Operational vs Programming errors
+1. Operational Errors
+    - Operational errors occur when software is used incorrectly or in a way that was not intended. These errors can be caused by human error such as unexpected user input or by external factors such as incorrect data, environmental issues like network outages or hardware failures, or network problems. Below are some examples.
+    - Divide-by-zero error: This occurs when a program tries to divide a number by zero. 
+    - File not found error: This occurs when a program tries to access a file that does not exist.
+2. Programmer Errors
+    - Programmer errors occur when mistakes are made during the development process by the developer.
+    - Examples: Syntax errors, Logical errors
+
+## Authentication vs Authorization
+1. **Authentication** - is the process of verifying a user's identity
+2. **Authorization** - is the process of verifying if that sepcifc user has permission to access a resource
+
+## How to obtain the IP address of the user in Node.js?
+- use `req.socket.remoteAddress` for incoming requests.
+- use `ip` moduel or `os.networkInterfaces()` function from `os` module for local ip address of server
+
+## What are error codes in nodejs ?
+1. Error code in nodejs vary depending on modules.
+2. Common process error codes include between 0-255 and each of the will have a specific meaning.
+3. These error codes can be helpful when exiting the `process`.
+4. We can use `process.exit(SOME_ERROR_CODE between 0-255 depending on context)` to exit from process and we can use `process.on("exit",(code)=>{ console.log("Process exited with code: ", code) }` to listen for exits.
+5. **Example:**
+    ```
+    index.js
+    
+    console.log("Hello World");
+    process.exit(0);
+    process.on("exit",(code)=>{console.log(code)});
+    
+    // Above listener will execute the callback function on process exit and prints the code 0 which represents that the script has run successfully without any errors
+    ```
+
+## Child process vs Cluster vs Worker thread (modules)
+**Worker Threads**
+1. The `node:worker_threads` module enables the use of threads that execute JavaScript in parallel.
+2. Workers (threads) are useful for performing CPU-intensive JavaScript operations.
+3. They do not help much with I/O-intensive work.
+4. worker_threads can share memory. They do so by transferring ArrayBuffer instances or sharing SharedArrayBuffer instances.
+**Child process**
+1. The node:child_process module provides the ability to spawn subprocesses in a manner that is similar
+2. 
+**Clusters**
+1. Clusters of Node.js processes can be used to run multiple instances of Node.js that can distribute workloads among their application threads.
+2. Clusters module is built on top of `child_process` module.
+3. The cluster we create will distribute the incoming requests using two methods:
+    - round-robin method
+    - sockets
+4. All these cluster processes communicate with the parent (child to parent and parent to child) via IPC (Inter Process Communication channel).
+
+## Control flow function in nodejs
+Control flow determines the order in which statements and instructions are executed within a program. It involves making decisions, repeating code blocks, and reacting to events or conditions. In Node.js, control flow is crucial due to its non-blocking nature, where asynchronous operations are a common occurrence
+**Control Flow Functions**
+1. Callbacks
+2. Promises
+3. Async/Await
+
+## How do you implement websockets in nodejs ?
+```
+const { WebSocketServer } = require('ws');
+
+const wss = new WebSocketServer({ port: 8080 });
+// ws://localhost:8080
+
+wss.on('connection', function connection(ws) {
+  ws.on('error', console.error);
+
+  ws.on('message', function message(data) {
+    console.log('received: %s', data);
+  });
+
+  ws.send('something');
+});
+```
+
+## What is observer pattern ?
+In event-driven architecture, we have three main things. 1) Event emitter 2) Event listener 3) Event handler. Here 1 and 2 are known as observer pattern as it always be observing the events that get emitted
+
+## How does Node.js handle concurrency if it is single-threaded?
+Node.js prevents bottlenecks and aids programmers in easily writing the code because of the single-thread model. Internally, there are several POSIX threads for different I/O operations like File, DNS, etc.
+
+So, when Node receives an I/O request, it uses one of these threads for the I/O operation. Once the operation is complete, the result joins the event queue. Because of the event mechanism, the event loop starts after each event, checks the queue, and if Node’s execution stack is free, then the loop adds the queue result to it, thus managing concurrency.
 
 ## How does web work ?
 1) We type google.com
