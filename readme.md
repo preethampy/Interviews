@@ -1407,6 +1407,8 @@ Throughput is the speed at which the database can perform read or write operatio
 - Isolation
 - Durability
 
+## Eventual and Casual Consistency
+
 # Networking & System design
 ## What is an API ?
 API stands for Application programming interface and it is a set of functions and procedures that allows two applications to talk to each other.
