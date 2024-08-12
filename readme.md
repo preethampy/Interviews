@@ -1,3 +1,7 @@
+# Table
+1. [HTML](#html)
+2. [Javascript](#Javascript)
+
 # HTML
 1. Stands for Hyper Text Markup Language
 2. It is a standard text formatting language used for developing web pages
