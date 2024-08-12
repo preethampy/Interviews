@@ -1,10 +1,76 @@
 # HTML
+1. Stands for Hyper Text Markup Language
+2. It is a standard text formatting language used for developing web pages
+
+## Tags and Attributes
+1. Tags are primary component of HTML that defines how the content will be structured or formatted. Below is a `<p>` tag example.
+    `<p> My paragraph </p>`
+2. Attributes are used along with HTML tags to define characteristics.
+    `<p class="i am an attribute"> My paragraph </p>`
+
+## Void elements
+Which do not have any closing tags are known as void elements
+`<img/> <br/> <hr/>`
+
+## Collapsing whitespace
+Whitespace collapsing is a feature in HTML that allows browsers to display multiple spaces as one, and ignore spaces before and after elements. 
+
+## HTML entities
+In HTML some characters are reserved like `<`, `>`, `/`, etc. To use these characters in our webpage we need to use the character entities called HTML Entities.
+```
+< use &lt;
+> use &gt;
+& use &amp;
+```
+
+## Types of lists
+1. Ordered lists
+2. Unordered lists
+3. Defination/Description list
+```
+Ordered list
+<ol>
+    <li> Item 1 </li>
+    <li> Item 2 </li>
+</ol>
+
+Unordered list
+<ul>
+    <li> Item 1 </li>
+    <li> Item 2 </li>
+</ul>
+
+Defination/Description list
+<dl>
+    <dt>Heading</dt>
+    <dd>- body </dd>
+    <dt>Heading</dt>
+    <dd>- body </dd>
+</dl>
+```
+
+## Class attribute
+The class attribute is used to specify the class name for an HTML element. Multiple elements in HTML can have the same class value. Also, it is mainly used to associate the styles written in the stylesheet with the HTML elements.
+
+## HTML layout structure
+1. <header>
+2. <nav>
+3. <main>
+4. <section>
+5. <article>
+6. <aside>
+7. <footer>
+
 ## What is DOCTYPE in html ?
-## What is <head></head> type ?
-## Better place to link <scrip> is in head or body tag ?
-## Defer and async attribute
-## Can we create custom elements in html ?
-## Difference between inline and block
+We define DOCTYPE to tell the browser what version of HTML the page is written in. `<!DOCTYPE html>`
+1. Strict Doctype 
+2. Transitional Doctype
+3. Frameset Doctype
+
+## Default, Defer, Async attributes
+1. **Default**: parsing of HTML is blocked until the javascript file is fetched and execute, leading to slower page load times.
+2. **Async**: parsing of HTML, javascript files happen asynchronously. Once javascript files are downloaded, will be executed asynchronously.
+3. **Defer**: parsing of HTML, javascript files happen asynchronously. But the execution of javascript file happens only after HTML is fully parsed.
 
 # Javascript fundamentals
 ## Links
@@ -874,8 +940,6 @@ A thread is an execution context, which is all the information a CPU needs to ex
     console.log(calculator.add(2, 3)); // Output: 5
     ```
 
-## What is difference between ES5 and ES6?
-
 ## Miscellaneous
 1) JavaScript Objects are Mutable
 2) JavaScript for...in loop can be used to iterate over the keys of an object.
@@ -1045,11 +1109,8 @@ Idempotence in React refers to the idea that a component's rendering function sh
 
 ## What is useImperativeHandle?
 The useImperativeHandle hook is used to create a custom interface between a child and its parent component. It is commonly used in situations where a parent component needs to interact with a child component directly, such as for form validation or handling of user input.
-## What are performance and optimisation techniques used in React?
+
 ## Shadow DOM
-## Lifting up state in react
-
-
 
 # NodeJs
 ## About
@@ -1407,7 +1468,22 @@ Throughput is the speed at which the database can perform read or write operatio
 - Isolation
 - Durability
 
-## Eventual and Casual Consistency
+## What are distributed systems ?
+1. A distributed System is a collection of autonomous computer systems that are physically separated but are connected by a centralized computer network that is equipped with distributed system software.
+2. autonomous computers will communicate among each system by sharing resources and files and performing the tasks assigned to them.
+3. **Examples:**
+    - Client-server systems
+    - peer-to-peer networks
+    - Cell phone network
+
+## CAP theorem
+1. CAP theorem is also known as brewers theorem.
+2. It states that a distributed system can only provide two of three guarantees at the same time.
+3. The three guarantees are **Consistency**, **Availability**, **partition tolerance**
+
+## Normalization and Denormalization in database
+1. **Normalization:** when we divide the data into multiple collections with references between those, this process is known as normalization
+2. **Denormalization:** when we store data in same collection inside an array or object, it is known as denormalization
 
 # Networking & System design
 ## What is an API ?
