@@ -11,6 +11,8 @@
 10. [What motivates you at work](#What_motivates_you_at_work)
 11. [What is your role in a team](#What_is_your_role_in_team)
 12. [Software development cycle](#Software_development_cycle)
+13. [More about NCR](#More_about_NCR)
+14. [Deadlines and weekends](#Deadlines_and_weekends)
 
 # Manager Round
 
@@ -58,11 +60,13 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 ## Why do you believe you are a good fit for this position
 1. I believe i am a great fit for this position because i have almost 3+ years of experience in full stack development. Which directly aligns the core responsibilities of this job role
 2. My expertise in full stack technologies has allowed me to deliver scalable and efficient projects
+3. I'm deeply passionate about my work, and I’m often so engaged that I lose track of time.
 3. Also, having experience in code optimization, performance improvement, database query optimization 
 4. I think these qualities would make me a good fit for this position
 
 ## Why should we hire you
 1. I believe i am a great fit for this position because i have almost 3 years of experience in backend development. Which directly aligns the core responsibilities of this job role
+2. I'm deeply passionate about my work, and I’m often so engaged that I lose track of time.
 2. My expertise in backend technologies has allowed me to deliver scalable and efficient projects
 3. Also, having experience in code optimization, performance improvement, database query optimization 
 4. Also, I believe My dedication, self-learning, self-motivation at work would result in great outputs
@@ -84,7 +88,8 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 
 ## What motivates you at work
 1. I love my job and what i do. That would be the first thing that always keeps motivating me
-2. complex problems, challenging tasks, finding solutions for them gives me a good feeling of accomplishment
+2. I'm deeply passionate about my work, and I’m often so engaged that I lose track of time.
+3. complex problems, challenging tasks, finding solutions for them gives me a good feeling of accomplishment
 3. Also, knowing my work contributes to the success of team and company is a big motivating factor for me
 4. Also, the feeling that i need to finish the targets in given deadline also motivates me and pushes me to work off my limits like off my office times
 
@@ -93,6 +98,17 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 2. I like to communicate with my teammates about ideas, feedbacks so together we can take project to next level
 3. I am actually flexible to step into different roles depending on project needs be it taking lead or supporting team, depending on project demands
 4. so overall my role would be adaptive so the project is a success
+
+## More about NCR
+1. NCR voyix provides technology solutions for industries like banking, retail, and restaurants and more
+2. It specializes in cloud-based solutions, advanced analytics, and digital transformation services
+3. It plays a key role in NCR’s strategy to lead in the adoption of emerging technologies like AI and cloud computing
+
+## Deadlines and weekends
+1. Meeting deadlines and delivering high-quality results is a priority for me.
+2. I don’t just work to complete tasks; I work to make a meaningful impact.
+3. For me, it’s not just about working within set hours; it’s about achieving results. I’m committed to going the extra mile, whether it’s staying late or working over the weekend, to ensure we deliver on our promises.
+4. I understand that some projects require extra time and effort, and I’m more than willing to put in late hours or work on weekends to ensure we meet our goals. I’m committed to the success of the team and the company.
 
 ## Software development cycle
 1. Planning
