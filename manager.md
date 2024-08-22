@@ -101,8 +101,9 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 
 ## More about NCR
 1. NCR voyix provides technology solutions for industries like banking, retail, and restaurants and more
-2. It specializes in cloud-based solutions, advanced analytics, and digital transformation services
-3. It plays a key role in NCR’s strategy to lead in the adoption of emerging technologies like AI and cloud computing
+2. Also the company is into Digital integration, Devops, App development
+3. It specializes in cloud-based solutions, advanced analytics, and digital transformation services
+4. It plays a key role in NCR’s strategy to lead in the adoption of emerging technologies like AI and cloud computing
 
 ## Deadlines and weekends
 1. Meeting deadlines and delivering high-quality results is a priority for me.
