@@ -5,10 +5,24 @@
 2. I did my graduation from Mahaveer Institute of Science and Technoloy, Hyderabad
 3. I have a total of almost 4 years of work experience
 4. I began my career as a python developer where the main focus was writing testing scripts, web scraping and tradebot
-5. Later i switched to Backend Development where i had opportunity to work on lots of different kind of scalable projects using nodejs, expressjs, mongodb and lot more libraries that depending on projects.
-6. Then in may 2023, i decided to focus on a little startup project idea i had, where i worked independently from end-to-end until march 2024.
-7. Since then i am looking for either backend or full-stack position to contribute my skills
+5. Later i got involved into Backend Development and Full Stack Development where i had opportunity to work on lots of different kind of scalable projects using nodejs, expressjs, mongodb and lot more libraries that depending on projects.
+6. (NCR Voyix) Then i have joined commute network as full stack developer where i had oppurtunity to take care of the whole stack and build scalable, efficient applicaion 
+7. And now i am looking to join and contribute my full stack skills and expertise 
  
+## Why did you left your last company ?
+1. Actually it was a start up and everything was going well as far as development side is concerned
+2. But when the MVP is ready, they failed to launch it or take it to people or market it, due to financial issues. So it didnt work out in the end as it couldnt reach the targeted people with the investment they had. So they ended up putting it on hold and there was no proper intimation on if they gonna move forward or not. So due to that uncertainity, and keeping my career focus and goals in mind, i had to make a decision and resign.
+
+## Current VS Expected CTC
+1. Current its 8 lakhs per annum, 7 lakhs is fixed and 1 lakh is variable
+2. Expected is between 10 to 11 lakhs per annum
+
+## Why do you want to join us ?
+1. NCR Corporation has been a global leader in consumer technologies, innovative solutions, digital commerce provider for more than 140 years.
+2. I have always wanted to be a part of such global leader as it aligns with my career goals.
+3. I am excited about the oppurtunity to contribute to cutting edge projects and collaborate with talented teams.
+4. I heard about NCR when i was in my final year but due to very less oppurtunities at that time and also considering my skill set and experience, i couldnt apply at that time but i strongly believe and confident that i am ready to join and make a good impact.
+
 ## How would you describe yourself ?
 I would describe myself as a highly motivated, self-taught, total work oriented, team player (i like working with others), proactive (i challenge myself to finish backend apis before frontend asks for it) and especially life-long learner (i always seek new knowledge and experiences)
 
@@ -28,8 +42,8 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 3. I get frustrated and low when or if dont reach my targets and i noticied it kinda effects my health
 
 ## Why do you believe you are a good fit for this position
-1. I believe i am a great fit for this position because i have almost 3 years of experience in backend development. Which directly aligns the core responsibilities of this job role
-2. My expertise in backend technologies has allowed me to deliver scalable and efficient projects
+1. I believe i am a great fit for this position because i have almost 3+ years of experience in full stack development. Which directly aligns the core responsibilities of this job role
+2. My expertise in full stack technologies has allowed me to deliver scalable and efficient projects
 3. Also, having experience in code optimization, performance improvement, database query optimization 
 4. I think these qualities would make me a good fit for this position
 
@@ -43,21 +57,12 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 ## What are your biggest challenges and how you solved them
 1. I have faced lot of challenges and its totally dependent on the kind of project it is
 2. Sometimes the project demands to have a new technology to be implemented, that would be a challenge for that project
+3. Faced a performance issue in some existing project, i identified the issues and implemented caching, refactored database queries which reduced the response time by 80%
 3. Wallet is different and database is different, so i used transactions to deal with this issue in blockchain project
 4. Razorpay payments issue where payments appear in website but not in my db, it was webhooks concept at that time
 5. Google Maps SDK
 6. CCXT library to NON CCXT library
 7. Market Making Bot
-
-## Why do you want to join us
-1. I have gone through company website and noticied that the company has a commitment towards innovation which attracts more great projects
-2. And i have also noticied the techstack company has been into
-3. So i believe that joining this company, i can be a part of such great innovative projects while also improving myself with different challenges i face and different technologies i might use
-
-## Why did you leave your last company
-1. Moving from product to marketing
-2. Worked on just 1 project since 4-6 months, with very minimal new implementations
-3. so i came to a situation like i have no scope of improvement so i thought i can implement my own startup project
 
 ## Where do you see yourself in 5 years
 1. In 5 years, i see myself continuing to grow within this company, by taking more responsibilities and contributing to more complex and larger projects
@@ -74,17 +79,6 @@ I would describe myself as a highly motivated, self-taught, total work oriented,
 2. I like to communicate with my teammates about ideas, feedbacks so together we can take project to next level
 3. I am actually flexible to step into different roles depending on project needs be it taking lead or supporting team, depending on project demands
 4. so overall my role would be adaptive so the project is a success
-
-## What are you expectations
-1. I am expecting 7.5 lakhs per annum
-2. Because people in market with my experience are earning more or same as my expectations
-3. Also my total work experience and my relevant work experience
-4. I have enhanced skill set than what i have had in my ex company
-5. Also the cost of living in banglore and the inflation of everything
-6. My expected salary would really help me stay motive or i will always have that feeling that i couldnt get what i have expected. 
-7. It is the base for my future growth as my hikes and bonuses depends on it.
-6. I have mastered lot of things and learned new technology implementations so i dont need to spend more time to learn something when i join company
-7. I didnt know or have only known the basics of what is redis, kafka, microservices, docker, load balancing, clusters, firebase, sockets, session based authentication, lot of middlewares, nginx and lot more
 
 ## Software development cycle
 1. Planning
