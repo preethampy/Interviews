@@ -1577,65 +1577,6 @@ Unit testing is, testing parts of controllers or the whole controller function a
 ## Integration testing
 Integration testing is, testing the apis we have created using `supertest` npm package
 
-# Docker
-
-Tutorial [paid] - https://learn.piyushgarg.dev/learn/docker?COUPON=DOCKER
-
-## What is docker ?
-Docker is a software platform that allows you to build, test, and deploy applications quickly. Docker packages software into standardized units called containers that have everything the software needs to run including libraries, system tools, code, and runtime.
-
-## Download & Install
-Visit docker.com and download and install docker based upon your OS.
-
-## Container
-Containers are an isolated environment to run any code. Sometimes called a sandbox, in which applications and their dependencies can live.
-
-## Image's
-
-## Commands
-1) `docker create 'IMAGE name'` (ex: docker create ubuntu) - creates a container with 'IMAGE' image
-2) `docker run -it 'IMAGE name'` (ex: docker run -it ubuntu) - creates and runs a container with 'IMAGE' image
-3) `docker pull 'IMAGE name'` (ex: docker pull ubuntu) - installs a new 'IMAGE' locally but doesnt create any container with it.
-
-## Info
-1) Containers can have a base image like Ubuntu, kali linux or just node, python etc
-2) We can create a container and install ubuntu image using `docker run -it ubuntu`
-3) Then we can run (start) that container using same command above
-4) We then can install node and any other packages normally
-5) Then we can packup the above container with ubuntu base image along with installed npm packages or any other applications and build a docker image
-
-## Creating docker file
-1) In our project root folder, create `Dockerfile` file with no extensions.
-2) Inside that file write below:
-    ```
-    FROM 'image name'
-    COPY 'file you want to copy' 'path from inside image where you want to copy your file to'
-    CMD ['command','file to apply command on']
-    ```
-3) Then, to create a build, type `docker build -t 'your image name' 'path to that Dockerfile'`
-4) When running express apps we can use below config inside Dockerfile before building it:
-    ```
-    FROM 'image name'
-    (ex: FROM node)
-
-    COPY 'file you want to copy' 'path from inside image where you want to copy your file to'
-    (ex: COPY index.js /home/app/index.js )
-
-    WORKDIR 'path to working directory, like the root of the project. When this is set, all the commands we run next will run from that path'
-    (ex: WORKDIR /home/app/)
-
-    RUN 'command' (ex: npm install) 
-    CMD ['command','file to apply command on'] (ex: ['node','index'])
-    ```
-5) Then with above config, suppose if our express server is running on port `3000` we need to run `docker run -it -p 3000:3000 'image name'`. Where left 3000 is the port we want the express to listen to in our local from 3000(right) which is the port inside the container. Its like, map 3000 port from container to 3000 port in my local machine.
-6) Now, to push this image to docker hub, do the following:
-    ```
-    1) Sign in to docker website and create a respository.
-    2) Tag our app to the repository created
-    Example: `docker tag node-app preethamweb3/node-app` where 'node-app' is the name of the image in local and preethamweb3/node-app is the repository we created in docker.
-    3) Then push it using `docker push preethamweb3/node-app`
-    ```
-
 # Microservices
 ## Smart Endpoints & Dumb pipes
 ## Circut Breaker
