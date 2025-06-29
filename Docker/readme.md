@@ -17,6 +17,36 @@ Containers are an isolated environment to run any code. Sometimes called a sandb
 `sudo docker run hello-world`
 This command downloads a test image and runs it in a container. When the container runs, it prints a confirmation message and exits.
 
+## Signin to docker-desktop
+Docker Desktop for Linux relies on pass to store credentials in GPG-encrypted files. Before signing in to Docker Desktop with your Docker ID, you must initialize pass. Docker Desktop displays a warning if pass is not configured.
+
+Generate a GPG key. You can initialize pass by using a gpg key. To generate a gpg key, run:
+
+
+` gpg --generate-key
+Enter your name and email once prompted.`
+
+Once confirmed, GPG creates a key pair. Look for the pub line that contains your GPG ID, for example:
+
+
+```...
+pubrsa3072 2022-03-31 [SC] [expires: 2024-03-30]
+ 3ABCD1234EF56G78
+uid          Molly <molly@example.com>
+```
+
+Copy the GPG ID and use it to initialize pass
+
+` pass init <your_generated_gpg-id_public_key>`
+
+You should see output similar to:
+```
+mkdir: created directory '/home/molly/.password-store/'
+Password store initialized for <generated_gpg-id_public_key>
+```
+Once you initialize pass, you can sign in and pull your private images.
+
+
 ## General Management
 | Command | Description |
 |---------|-------------|
