@@ -1,20 +1,26 @@
-function insert(arr, num, ind) {
-  for (let i = arr.length - 1; i > ind; i--) {
-    arr[i] = arr[i - 1];
+function throttle(fn, wait) {
+
+
+  let timer;
+  console.log("Parent: ", Date.now());
+
+  return function throttled(args) {
+    console.log("Children: ", Date.now());
+
+    // if (!timer) {
+    //   timer = setInterval(() => {
+    //     fn.call(this, args);
+    //   }, wait);
+    // }
   }
-  arr[ind] = num;
-  console.log(arr);
 }
 
-// insert([1, 2, 3, 4, 5], 0, 2);
+const stopForAMinute = throttle(() => { console.log("Preetham"); }, 10000);
 
-function remove(arr, ind) {
-  for (let i = ind; i <= arr.length - 1; i++) {
-    if (arr[i]) {
-      arr[i] = arr[i + 1];
-    }
-  }
-  console.log(arr);
-}
-
-remove([1, 2, 3, 4, 5], 2);
+stopForAMinute();
+setTimeout(()=>{stopForAMinute();},2000)
+// stopForAMinute();
+// stopForAMinute();
+// stopForAMinute();
+// stopForAMinute();
+// stopForAMinute();

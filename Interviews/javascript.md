@@ -1,4 +1,676 @@
-# Javascript fundamentals
+# JavaScript Interview Quick Reference
+
+These implementations use plain JavaScript and avoid relying on the built-in method being discussed. The examples are intentionally readable first, while still covering edge cases that may matter in an SDE-3 interview.
+
+## 1. Implement `debounce()` from scratch
+
+### What it does
+
+Debouncing delays a function until a certain amount of time has passed without another call.
+
+This is useful when an event can fire many times in a short period, such as typing in a search box or resizing a window. The function runs only after the user stops triggering the event.
+
+### Implementation
+
+```js
+function debounce(callback, delay) {
+  let timerId;
+
+  return function debounced(...args) {
+    const context = this;
+
+    clearTimeout(timerId);
+
+    timerId = setTimeout(() => {
+      callback.apply(context, args);
+    }, delay);
+  };
+}
+```
+
+### Example
+
+```js
+const search = debounce((query) => {
+  console.log(`Searching for: ${query}`);
+}, 300);
+
+search("j");
+search("ja");
+search("javascript");
+
+// Only the last call runs, after 300 ms without a new call.
+```
+
+### Explanation
+
+1. `timerId` stores the currently scheduled timer.
+2. Every call cancels the previous timer.
+3. A new timer is created.
+4. If no new call occurs before `delay`, the callback runs.
+5. `apply` preserves both the original `this` value and the arguments
+
+**Why context is necessary ?**
+**Why ...args not just args ?**
+
+**Complexity:** Each call performs constant work, so it is $O(1)$ time and $O(1)$ additional space, excluding the timer maintained by the runtime.
+
+**Common follow-up:** A production debounce can support `leading`, `trailing`, and `cancel()` options. State the desired behavior before implementing those variations.
+
+## 2. Implement `throttle()` from scratch
+
+### What it does
+
+Throttling limits a function to running at most once during each time interval.
+
+This is useful for high-frequency events such as scrolling, mouse movement, or pointer movement. Unlike debounce, throttle continues to run while the event continues.
+
+### Implementation
+
+This version runs immediately on the first call and runs once more with the latest arguments after the interval, if necessary.
+
+```js
+function throttle(callback, interval) {
+  let lastRunTime = 0;
+  let timerId = null;
+  let latestArgs;
+  let latestContext;
+
+  function run() {
+    lastRunTime = Date.now();
+    timerId = null;
+    callback.apply(latestContext, latestArgs);
+  }
+
+  return function throttled(...args) {
+    const currentTime = Date.now();
+    const remainingTime = interval - (currentTime - lastRunTime);
+
+    /**
+     * remainingTime <= 0, it means we are past the interval time
+     * remainingTime > 0, it means we still have time to wait
+     * 
+    */
+
+    latestArgs = args;
+    latestContext = this;
+
+    if (remainingTime <= 0) {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+        timerId = null;
+      }
+
+      run();
+      return;
+    }
+
+    if (timerId === null) {
+      timerId = setTimeout(run, remainingTime);
+    }
+  };
+}
+```
+
+### Example
+
+```js
+const reportScroll = throttle(() => {
+  console.log("Scroll position checked");
+}, 200);
+
+window.addEventListener("scroll", reportScroll);
+```
+
+### Explanation
+
+1. `lastRunTime` records when the callback last ran.
+2. If the interval has passed, the callback runs immediately.
+3. Otherwise, one timer is scheduled for the remaining time.
+4. Repeated calls update `latestArgs`, so the delayed call uses the newest data.
+5. The `timerId` check prevents multiple trailing timers from being created.
+
+**Complexity:** Each event performs $O(1)$ work and uses $O(1)$ additional space.
+
+## 3. Flatten a deeply nested array
+
+### What it does
+
+Flattening converts an array containing nested arrays into one array containing all values.
+
+Example: `[1, [2, [3, 4]], 5]` becomes `[1, 2, 3, 4, 5]`.
+
+### Recursive implementation
+
+```js
+function flattenArray(values) {
+  const flattenedValues = [];
+
+  for (const value of values) {
+    if (Array.isArray(value)) {
+      flattenedValues.push(...flattenArray(value));
+    } else {
+      flattenedValues.push(value);
+    }
+  }
+
+  return flattenedValues;
+}
+
+console.log(flattenArray([1, [2, [3, 4]], 5]));
+// [1, 2, 3, 4, 5]
+```
+
+### Explanation
+
+For every value, check whether it is an array. If it is, flatten that nested array too. Otherwise, add the value to the result.
+
+The function calls itself for deeper levels. This is called recursion: a function solves a smaller version of the same problem.
+
+**Complexity:** If there are $n$ total values, time is $O(n)$ and result space is $O(n)$. The recursion stack uses $O(d)$ space, where $d$ is the maximum nesting depth.
+
+### Iterative version for very deep arrays
+
+Recursion can overflow the call stack for extremely deep input. An explicit stack avoids that limitation:
+
+```js
+function flattenArrayIteratively(values) {
+  const result = [];
+  const stack = [...values].reverse();
+
+  while (stack.length > 0) {
+    const value = stack.pop();
+
+    if (Array.isArray(value)) {
+      stack.push(...value.slice().reverse());
+    } else {
+      result.push(value);
+    }
+  }
+
+  return result;
+}
+```
+
+## 4. Polyfills for `map`, `filter`, and `reduce`
+
+A polyfill recreates a standard feature so that we understand how it works. These examples preserve the important behavior of the native methods: callbacks receive `(value, index, array)`, and an optional `thisArg` is supported.
+
+### `map` polyfill
+
+`map` creates a new array with one transformed value for every input value.
+
+```js
+Array.prototype.myMap = function (callback, thisArg) {
+  if (this == null) {
+    throw new TypeError("myMap must be called on an array-like value");
+  }
+
+  if (typeof callback !== "function") {
+    throw new TypeError("callback must be a function");
+  }
+
+  const source = Object(this);
+  const result = new Array(source.length);
+
+  for (let index = 0; index < source.length; index += 1) {
+    if (index in source) {
+      result[index] = callback.call(thisArg, source[index], index, source);
+    }
+  }
+
+  return result;
+};
+
+console.log([1, 2, 3].myMap((number) => number * 2));
+// [2, 4, 6]
+```
+
+### `filter` polyfill
+
+`filter` creates a new array containing only the values whose callback returns a truthy value.
+
+```js
+Array.prototype.myFilter = function (callback, thisArg) {
+  if (this == null) {
+    throw new TypeError("myFilter must be called on an array-like value");
+  }
+
+  if (typeof callback !== "function") {
+    throw new TypeError("callback must be a function");
+  }
+
+  const source = Object(this);
+  const result = [];
+
+  for (let index = 0; index < source.length; index += 1) {
+    if (index in source && callback.call(thisArg, source[index], index, source)) {
+      result.push(source[index]);
+    }
+  }
+
+  return result;
+};
+
+console.log([1, 2, 3, 4].myFilter((number) => number % 2 === 0));
+// [2, 4]
+```
+
+### `reduce` polyfill
+
+`reduce` combines all values into one result, such as a sum, object, or string.
+
+```js
+Array.prototype.myReduce = function (callback, initialValue) {
+  if (this == null) {
+    throw new TypeError("myReduce must be called on an array-like value");
+  }
+
+  if (typeof callback !== "function") {
+    throw new TypeError("callback must be a function");
+  }
+
+  const source = Object(this);
+  let index = 0;
+  let accumulator;
+  const hasInitialValue = arguments.length >= 2;
+
+  if (hasInitialValue) {
+    accumulator = initialValue;
+  } else {
+    while (index < source.length && !(index in source)) {
+      index += 1;
+    }
+
+    if (index >= source.length) {
+      throw new TypeError("Reduce of empty array with no initial value");
+    }
+
+    accumulator = source[index];
+    index += 1;
+  }
+
+  for (; index < source.length; index += 1) {
+    if (index in source) {
+      accumulator = callback(accumulator, source[index], index, source);
+    }
+  }
+
+  return accumulator;
+};
+
+console.log([1, 2, 3, 4].myReduce((sum, number) => sum + number, 0));
+// 10
+```
+
+**Complexity:** Each method visits the array once: $O(n)$ time. `map` and `filter` use $O(n)$ result space; `reduce` uses $O(1)$ additional space apart from what the callback creates.
+
+## 5. Remove duplicates from an array without using `Set`
+
+### Approach 1: Nested loops
+
+This works for primitive values and uses no `Set`, `includes`, or `indexOf`.
+
+```js
+function removeDuplicates(values) {
+  const uniqueValues = [];
+
+  for (const value of values) {
+    let alreadyExists = false;
+
+    for (const uniqueValue of uniqueValues) {
+      if (uniqueValue === value || (Number.isNaN(uniqueValue) && Number.isNaN(value))) {
+        alreadyExists = true;
+        break;
+      }
+    }
+
+    if (!alreadyExists) {
+      uniqueValues.push(value);
+    }
+  }
+
+  return uniqueValues;
+}
+
+console.log(removeDuplicates([3, 1, 3, 2, 1, 2]));
+// [3, 1, 2]
+```
+
+### Explanation
+
+For each input value, compare it with the values already placed in `uniqueValues`. Add it only when no match is found. The `NaN` check handles the fact that `NaN !== NaN` in JavaScript.
+
+**Complexity:** Time is $O(n^2)$ in the worst case and additional space is $O(n)$ for the result.
+
+### Approach 2: Object lookup
+
+When the values are strings, numbers, or other safe property-key values, an object can provide average $O(1)$ lookup:
+
+```js
+function removeDuplicatesWithObject(values) {
+  const seen = Object.create(null);
+  const uniqueValues = [];
+
+  for (const value of values) {
+    const key = `${typeof value}:${String(value)}`;
+
+    if (seen[key] !== true) {
+      seen[key] = true;
+      uniqueValues.push(value);
+    }
+  }
+
+  return uniqueValues;
+}
+```
+
+The nested-loop version is easier to reason about for an interview. Mention the object version when performance matters, and explain the key-collision and object-value limitations.
+
+## 6. Deep clone an object
+
+### What it does
+
+A deep clone creates a completely separate copy, including nested objects and arrays. Changing the clone should not change the original.
+
+### Practical implementation using `structuredClone`
+
+```js
+function deepClone(value) {
+  return structuredClone(value);
+}
+
+const original = {
+  name: "Ada",
+  address: { city: "London" },
+  skills: ["JavaScript"]
+};
+
+const copy = deepClone(original);
+copy.address.city = "Paris";
+copy.skills.push("Algorithms");
+
+console.log(original.address.city); // London
+console.log(original.skills); // ["JavaScript"]
+```
+
+`structuredClone` handles many built-in types, including arrays, objects, dates, maps, sets, and circular references. It cannot clone functions, DOM nodes, or some host objects.
+
+### Interview implementation for common JSON-like objects
+
+```js
+function deepCloneBasic(value, seen = new WeakMap()) {
+  if (value === null || typeof value !== "object") {
+    return value;
+  }
+
+  if (seen.has(value)) {
+    return seen.get(value);
+  }
+
+  if (value instanceof Date) {
+    return new Date(value.getTime());
+  }
+
+  if (Array.isArray(value)) {
+    const clonedArray = [];
+    seen.set(value, clonedArray);
+
+    for (const item of value) {
+      clonedArray.push(deepCloneBasic(item, seen));
+    }
+
+    return clonedArray;
+  }
+
+  const clonedObject = Object.create(Object.getPrototypeOf(value));
+  seen.set(value, clonedObject);
+
+  for (const key of Reflect.ownKeys(value)) {
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    descriptor.value = deepCloneBasic(descriptor.value, seen);
+    Object.defineProperty(clonedObject, key, descriptor);
+  }
+
+  return clonedObject;
+}
+```
+
+### Explanation
+
+1. Primitive values can be returned directly because they are not references.
+2. `WeakMap` remembers objects already cloned. This both supports circular references and prevents cloning the same object repeatedly.
+3. Arrays, dates, and ordinary objects need different construction logic.
+4. Property descriptors preserve details such as read-only properties and getters.
+
+**Complexity:** For $n$ reachable properties, time is $O(n)$ and space is $O(n)$.
+
+## 7. Find the first non-repeating character in a string
+
+### Approach: Two passes with an object
+
+First count every character. Then scan the string again and return the first character with a count of one.
+
+```js
+function firstNonRepeatingCharacter(text) {
+  const characterCounts = Object.create(null);
+
+  for (const character of text) {
+    characterCounts[character] = (characterCounts[character] || 0) + 1;
+  }
+
+  for (const character of text) {
+    if (characterCounts[character] === 1) {
+      return character;
+    }
+  }
+
+  return null;
+}
+
+console.log(firstNonRepeatingCharacter("swiss")); // w
+console.log(firstNonRepeatingCharacter("aabb")); // null
+```
+
+### Explanation
+
+The first pass tells us how often each character appears. The second pass preserves the original order and finds the first count of one.
+
+`for...of` iterates Unicode code points better than indexing a string, although some graphemes can consist of multiple code points.
+
+**Complexity:** For $n$ characters, time is $O(n)$ and additional space is $O(k)$, where $k$ is the number of distinct characters.
+
+## 8. Implement memoization
+
+### What it does
+
+Memoization caches the result of a function call. If the same inputs appear again, the cached result is returned instead of recalculating it.
+
+It is most useful for pure functions: functions whose result depends only on their arguments and that do not cause side effects.
+
+### Implementation for primitive and JSON-like arguments
+
+```js
+function memoize(callback) {
+  const cache = new Map();
+
+  return function memoized(...args) {
+    const key = JSON.stringify(args);
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+
+    const result = callback.apply(this, args);
+    cache.set(key, result);
+    return result;
+  };
+}
+
+const square = memoize((number) => {
+  console.log("Calculating...");
+  return number * number;
+});
+
+console.log(square(5)); // Calculates and returns 25
+console.log(square(5)); // Returns cached 25
+```
+
+### Important design considerations
+
+- `JSON.stringify` is not a universal cache key: object key order, circular objects, `undefined`, and functions need special handling.
+- For object arguments, nested `WeakMap` caches can use object identity without preventing garbage collection.
+- A production cache may need a maximum size, expiration, or invalidation method.
+
+**Complexity:** The cache lookup is average $O(1)$, plus the time required to create the key. Space grows with the number of cached calls.
+
+## 9. Convert a callback-based function to a Promise
+
+### What it does
+
+Many older Node.js APIs use the error-first callback style:
+
+```js
+someFunction(arguments, (error, result) => {
+  // use error or result
+});
+```
+
+The callback becomes a Promise by resolving on success and rejecting when an error is provided.
+
+### Generic implementation
+
+```js
+function promisify(callbackFunction) {
+  return function promisified(...args) {
+    return new Promise((resolve, reject) => {
+      function callback(error, result) {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      }
+
+      callbackFunction.call(this, ...args, callback);
+    });
+  };
+}
+```
+
+### Example
+
+```js
+function getUser(userId, callback) {
+  setTimeout(() => {
+    if (!userId) {
+      callback(new Error("A user ID is required"));
+      return;
+    }
+
+    callback(null, { id: userId, name: "Ada" });
+  }, 100);
+}
+
+const getUserAsync = promisify(getUser);
+
+getUserAsync(42)
+  .then((user) => console.log(user))
+  .catch((error) => console.error(error));
+```
+
+### Explanation
+
+1. Return a new Promise.
+2. Append an error-first callback to the original function's arguments.
+3. Call `reject` when the callback receives an error.
+4. Call `resolve` with the result otherwise.
+5. `call(this, ...)` preserves the receiver for methods.
+
+**Important follow-up:** Some callback APIs return multiple success values. A more flexible version can resolve an array of results, or accept an option such as `multiArgs: true`.
+
+## 10. Write a custom `bind()` polyfill
+
+### What it does
+
+`bind` returns a new function with a fixed `this` value and optionally pre-filled arguments.
+
+```js
+function greet(greeting, punctuation) {
+  return `${greeting}, ${this.name}${punctuation}`;
+}
+
+const person = { name: "Ada" };
+const sayHello = greet.myBind(person, "Hello");
+
+console.log(sayHello("!")); // Hello, Ada!
+```
+
+### Basic implementation
+
+```js
+Function.prototype.myBind = function (context, ...boundArgs) {
+  if (typeof this !== "function") {
+    throw new TypeError("myBind must be called on a function");
+  }
+
+  const originalFunction = this;
+
+  return function boundFunction(...callArgs) {
+    return originalFunction.apply(context, [...boundArgs, ...callArgs]);
+  };
+};
+```
+
+### Constructor-safe implementation
+
+Native `bind` also works when the bound function is called with `new`. In that case, JavaScript must use the new instance as `this`, not the bound context. This version supports that behavior and preserves the prototype relationship.
+
+```js
+Function.prototype.myBind = function (context, ...boundArgs) {
+  if (typeof this !== "function") {
+    throw new TypeError("myBind must be called on a function");
+  }
+
+  const originalFunction = this;
+
+  function boundFunction(...callArgs) {
+    const isCalledWithNew = this instanceof boundFunction;
+    const receiver = isCalledWithNew ? this : context;
+
+    return originalFunction.apply(receiver, [...boundArgs, ...callArgs]);
+  }
+
+  if (originalFunction.prototype) {
+    boundFunction.prototype = Object.create(originalFunction.prototype);
+  }
+
+  return boundFunction;
+};
+```
+
+### Explanation
+
+1. In a method on `Function.prototype`, `this` is the function being bound.
+2. Save that function before returning the wrapper.
+3. Combine arguments supplied during binding with arguments supplied during the later call.
+4. Use `apply` to invoke the original function with the correct receiver.
+5. When called with `new`, use the newly created instance as `this`.
+
+**Complexity:** Creating the wrapper is $O(1)$. Each call spends $O(b + c)$ time copying bound arguments and call arguments, where $b$ and $c$ are their respective counts.
+
+## Interview checklist
+
+When explaining any of these solutions, mention:
+
+- Input assumptions and edge cases.
+- Whether the function mutates its input.
+- Time and space complexity.
+- How `this` and arguments are preserved where relevant.
+- Production concerns such as cancellation, cache eviction, circular references, and API compatibility.
+
+
+# Interview
 
 ## Links
 

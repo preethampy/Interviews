@@ -2550,6 +2550,8 @@ cycle, hence not serializable
 
 ### 2. View Serializability
 
+
+
 # QA
 
 ## 1. What is clock and global clock ?

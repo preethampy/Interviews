@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <title>Home Page</title>
+</head>
+
+<!-- <body>
+    <p>Welcome, <span id="username"></span>!</p>
+    <ul>
+        <li>
+            <p>Sky <button>Take me to sky</button></p>
+        </li>
+        <li>
+            <p>Water <button>Take me to water</button></p>
+        </li>
+        <li>
+            <p>Fire <button>Take me to fire</button></p>
+        </li>
+    </ul>
+    <script>
+        // Assuming 'user' is defined in a previous script or passed from the server
+        var user = "John Doe"; // Example user name
+        document.getElementById("username").textContent = user;
+    </script>
+</body> -->
+
+<body onclick="closePopup()">
+  <div id="popup" style="background: #eee; padding: 20px;">
+    <p>This is a popup!</p>
+    <!-- Clicking this button will NOT close the popup because of stopPropagation -->
+    <button onclick="keepPopupOpen(event)">Click Me</button>
+  </div>
+
+  <script>
+    function closePopup() {
+      console.log("Popup hidden (body clicked)");
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    function keepPopupOpen(event) {
+      // Prevents the click event from bubbling up to <body>
+      event.stopPropagation(); 
+      console.log("Button clicked inside popup!");
+    }
+  </script>
+</body>
+
+</html>
